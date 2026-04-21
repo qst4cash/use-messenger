@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  use-messenger:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: use-messenger
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - BACKEND_PORT=4000
+      - DATABASE_PATH=/app/data/use.db
+      - UPLOADS_DIR=/app/uploads
+      - JWT_SECRET=${JWT_SECRET}
+      - MAX_FILE_SIZE=52428800
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+    volumes:
+      # Persistent data
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+      # Logs
+      - ./logs:/app/logs
+    networks:
+      - use-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/api/users"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  use-network:
+    driver: bridge
