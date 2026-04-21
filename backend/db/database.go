@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"use-backend/models"
@@ -44,7 +45,12 @@ type DB struct {
 var Store *DB
 
 func Init() error {
-	conn, err := sql.Open("sqlite", "./use.db")
+	dbPath := os.Getenv("DATABASE_PATH")
+	if dbPath == "" {
+		dbPath = "./use.db"
+	}
+
+	conn, err := sql.Open("sqlite", dbPath)
 	if err != nil {
 		return err
 	}
