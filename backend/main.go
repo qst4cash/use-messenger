@@ -82,6 +82,9 @@ func main() {
 	// Serve uploaded files
 	r.PathPrefix("/uploads/").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
+	// Serve static frontend files
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
+
 	r.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		handlers.HandleWebSocket(upgrader, w, r)
 	})
