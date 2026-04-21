@@ -16,12 +16,16 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - MAX_FILE_SIZE=52428800
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - SSL_CERT_FILE=/app/ssl/cert.pem
+      - SSL_KEY_FILE=/app/ssl/key.pem
     volumes:
       # Persistent data
       - ./data:/app/data
       - ./uploads:/app/uploads
       # Logs
       - ./logs:/app/logs
+      # SSL certificates
+      - ./ssl:/app/ssl:ro
     networks:
       - use-network
     healthcheck:

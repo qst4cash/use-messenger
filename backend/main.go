@@ -86,9 +86,20 @@ func main() {
 		handlers.HandleWebSocket(upgrader, w, r)
 	})
 
-	log.Println("Server starting on :4000")
-	if err := http.ListenAndServe(":4000", r); err != nil {
-		log.Fatal(err)
+	// Check if SSL certificates exist
+	certFile := os.Getenv("SSL_CERT_FILE")
+	keyFile := os.Getenv("SSL_KEY_FILE")
+
+	if certFile != "" && keyFile != "" {
+		log.Println("Server starting on :4000 with HTTPS")
+		if err := http.ListenAndServeTLS(":4000", certFile, keyFile, r); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		log.Println("Server starting on :4000 with HTTP (no SSL certificates found)")
+		if err := http.ListenAndServe(":4000", r); err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 

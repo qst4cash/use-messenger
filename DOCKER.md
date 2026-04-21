@@ -35,7 +35,13 @@ cd use-messenger
 3. **Configure Environment**
 ```bash
 echo "JWT_SECRET=$(openssl rand -hex 32)" > .env
-echo "ALLOWED_ORIGINS=http://$(curl -s ifconfig.me):4000" >> .env
+echo "ALLOWED_ORIGINS=https://$(curl -s ifconfig.me):4000" >> .env
+```
+
+**3.1. Generate SSL Certificate**
+```bash
+chmod +x deploy/generate-ssl.sh
+./deploy/generate-ssl.sh
 ```
 
 4. **Deploy**
@@ -93,9 +99,11 @@ docker stats use-messenger
 ## Environment Variables
 
 - `JWT_SECRET` - Secret key for JWT tokens
-- `ALLOWED_ORIGINS` - CORS allowed origins
+- `ALLOWED_ORIGINS` - CORS allowed origins (use https:// for SSL)
 - `DATABASE_PATH` - Path to SQLite database
 - `UPLOADS_DIR` - Path to uploads directory
+- `SSL_CERT_FILE` - Path to SSL certificate (optional)
+- `SSL_KEY_FILE` - Path to SSL private key (optional)
 
 ## Workflow
 
@@ -103,6 +111,12 @@ docker stats use-messenger
 2. Commit and push to GitHub
 3. Server automatically pulls and rebuilds (if webhook configured)
 4. Changes live in 1-2 minutes
+
+**Access:**
+- HTTPS: `https://<SERVER_IP>:4000` (with SSL certificate)
+- HTTP: `http://<SERVER_IP>:4000` (if no SSL configured)
+
+**Note:** Self-signed certificates will show browser warning. Click "Advanced" → "Proceed" to access.
 
 ## Troubleshooting
 
