@@ -25,7 +25,7 @@ WORKDIR /app/frontend
 
 # Копирование package.json для кеширования зависимостей
 COPY clients/web/package*.json ./
-RUN npm ci --production
+RUN npm ci
 
 # Копирование исходников frontend
 COPY clients/web/ ./
