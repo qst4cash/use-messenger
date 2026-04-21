@@ -518,7 +518,8 @@ function ChatApp({ user, setUser, token, onLogout }) {
   }, [messages])
 
   function connectWebSocket() {
-    const ws = new WebSocket(`ws://${window.location.host}/ws?token=${token}`)
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+    const ws = new WebSocket(`${protocol}//${window.location.host}/ws?token=${token}`)
     ws.onopen = () => {}
     ws.onclose = () => {}
     ws.onerror = (e) => console.error('WebSocket error', e)
