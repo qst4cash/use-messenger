@@ -3,6 +3,9 @@
 # Stage 1: Build backend
 FROM golang:1.26-alpine AS backend-builder
 
+# Установка gcc для CGO (SQLite требует CGO)
+RUN apk add --no-cache gcc musl-dev sqlite-dev
+
 WORKDIR /app/backend
 
 # Копирование go.mod и go.sum для кеширования зависимостей
