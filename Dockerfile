@@ -15,8 +15,8 @@ RUN go mod download
 # Копирование исходников backend
 COPY backend/ ./
 
-# Сборка backend
-RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -ldflags="-s -w" -o use-server .
+# Сборка backend (без -a для экономии памяти)
+RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-s -w" -o use-server .
 
 # Stage 2: Build frontend
 FROM node:18-alpine AS frontend-builder
