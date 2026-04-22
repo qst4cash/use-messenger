@@ -19,7 +19,7 @@ COPY backend/ ./
 RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-s -w" -o use-server .
 
 # Stage 2: Build frontend
-FROM node:18-alpine AS frontend-builder
+FROM node:20-alpine AS frontend-builder
 
 WORKDIR /app/frontend
 
