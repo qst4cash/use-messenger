@@ -1,0 +1,25 @@
+#!/usr/bin/expect -f
+
+set timeout 30
+set password "TY0muYW1o5Kv"
+set server "138.124.26.50"
+
+spawn ssh-copy-id -o StrictHostKeyChecking=no root@$server
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Now try logging" {
+        puts "SSH ключ успешно скопирован!"
+        exit 0
+    }
+    timeout {
+        puts "Timeout"
+        exit 1
+    }
+    eof {
+        exit 0
+    }
+}

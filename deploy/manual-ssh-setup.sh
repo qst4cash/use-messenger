@@ -1,0 +1,28 @@
+#!/bin/bash
+
+SERVER="138.124.26.50"
+PASSWORD="TY0muYW1o5Kv"
+PUBKEY=$(cat ~/.ssh/id_rsa.pub)
+
+echo "Настройка SSH доступа к серверу $SERVER..."
+echo ""
+echo "Выполните следующие команды вручную:"
+echo ""
+echo "1. Подключитесь к серверу:"
+echo "   ssh root@$SERVER"
+echo "   Пароль: $PASSWORD"
+echo ""
+echo "2. Выполните на сервере:"
+echo "   mkdir -p ~/.ssh"
+echo "   chmod 700 ~/.ssh"
+echo "   echo '$PUBKEY' >> ~/.ssh/authorized_keys"
+echo "   chmod 600 ~/.ssh/authorized_keys"
+echo "   exit"
+echo ""
+echo "3. Проверьте SSH доступ:"
+echo "   ssh root@$SERVER"
+echo ""
+echo "4. Запустите деплой:"
+echo "   cd /c/USE/deploy"
+echo "   ./full-deploy.sh $SERVER usecommunity.online"
+echo ""
