@@ -79,15 +79,16 @@ func main() {
 	r.HandleFunc("/api/messages/{id}", handlers.DeleteMessage).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/api/files/upload", handlers.UploadFile).Methods("POST", "OPTIONS")
 
+	// WebSocket endpoint (must be before PathPrefix)
+	r.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		handlers.HandleWebSocket(upgrader, w, r)
+	})
+
 	// Serve uploaded files
 	r.PathPrefix("/uploads/").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
 	// Serve static frontend files
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
-
-	r.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		handlers.HandleWebSocket(upgrader, w, r)
-	})
 
 	// Check if SSL certificates exist
 	certFile := os.Getenv("SSL_CERT_FILE")
