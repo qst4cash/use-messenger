@@ -1,0 +1,35 @@
+# Backend
+backend/use-server
+backend/use-server.exe
+backend/*.db
+
+# Frontend
+clients/web/node_modules/
+clients/web/dist/
+clients/web/.vite/
+
+# Docker volumes
+data/
+uploads/
+logs/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temp
+*.tmp
+*.temp

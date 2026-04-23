@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  use-messenger:
+    build: .
+    container_name: use-messenger
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - BACKEND_PORT=4000
+      - DATABASE_PATH=/app/data/use.db
+      - UPLOADS_DIR=/app/uploads
+      - JWT_SECRET=${JWT_SECRET}
+      - MAX_FILE_SIZE=52428800
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - SSL_CERT_FILE=/app/ssl/cert.pem
+      - SSL_KEY_FILE=/app/ssl/key.pem
+    volumes:
+      # Persistent data
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+      # Logs
+      - ./logs:/app/logs
+      # SSL certificates
+      - ./ssl:/app/ssl:ro
+    
