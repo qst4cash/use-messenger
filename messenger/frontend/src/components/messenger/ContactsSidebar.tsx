@@ -14,6 +14,10 @@ import {
   Check,
   CheckCheck,
   User,
+  Bell,
+  Pin,
+  Trash2,
+  Ban,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -233,7 +237,11 @@ function ChatsView({
                           </>
                         )}
                         <span className="text-xs truncate text-neutral-400">
-                          {chat.last_message || `Start chatting with ${chat.username}`}
+                          {chat.last_message
+                            ? chat.last_message.length > 32
+                              ? chat.last_message.substring(0, 32) + "..."
+                              : chat.last_message
+                            : "No messages yet"}
                         </span>
                       </div>
                       {chat.unread && chat.unread > 0 && (
@@ -322,7 +330,7 @@ function SearchView({
                 className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-neutral-900/60 transition-colors text-left"
               >
                 <Avatar className="w-10 h-10 border border-neutral-800">
-                  <AvatarImage src={user.avatar ? `/uploads/${user.avatar}` : undefined} />
+                  <AvatarImage src={user.avatar || undefined} />
                   <AvatarFallback className="bg-neutral-900 text-neutral-400 text-xs">
                     {user.nickname?.substring(0, 2).toUpperCase() || user.username?.substring(0, 2).toUpperCase() || "??"}
                   </AvatarFallback>
@@ -330,7 +338,6 @@ function SearchView({
                 <div className="flex-1">
                   <div className="text-sm text-neutral-200">{user.nickname || user.username}</div>
                   <div className="text-xs text-neutral-500">@{user.username}</div>
-                  {user.bio && <div className="text-xs text-neutral-500 truncate">{user.bio}</div>}
                 </div>
               </button>
             ))
@@ -510,18 +517,18 @@ function ProfileView({ onBack, currentUser, token, onAvatarUpdate }: { onBack: (
           <h2 className="text-lg font-medium text-neutral-100">{currentUser?.nickname || currentUser?.username || "User"}</h2>
           <p className="text-xs text-neutral-400 mt-0.5">@{currentUser?.username || "user"}</p>
 
-          <div className="flex gap-2 mt-3">
-            <label className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-md border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-xs text-neutral-200 transition-colors cursor-pointer">
-              <Camera className="w-3.5 h-3.5" strokeWidth={1.5} />
-              Avatar
+          <div className="w-full grid grid-cols-2 gap-2 mt-3">
+            <label className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-neutral-200 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-colors border border-neutral-800 cursor-pointer">
+              <Camera className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+              <span className="flex-1 text-left">Avatar</span>
               <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
             </label>
             <button
               onClick={() => setIsEditingNickname(true)}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-md border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-xs text-neutral-200 transition-colors"
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-neutral-200 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-colors border border-neutral-800"
             >
-              <User className="w-3.5 h-3.5" strokeWidth={1.5} />
-              Nickname
+              <User className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+              <span className="flex-1 text-left">Nickname</span>
             </button>
           </div>
 
@@ -653,6 +660,8 @@ function ContactInfoView({
   const [contactInfo, setContactInfo] = useState<any>(null);
   const [media, setMedia] = useState<any[]>([]);
   const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTimer, setDeleteTimer] = useState(5);
 
   useEffect(() => {
     if (!contact || !token) return;
@@ -678,6 +687,40 @@ function ContactInfoView({
       })
       .catch(console.error);
   }, [contact, token]);
+
+  // Timer for delete confirmation
+  useEffect(() => {
+    if (showDeleteModal && deleteTimer > 0) {
+      const timer = setTimeout(() => setDeleteTimer(deleteTimer - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [showDeleteModal, deleteTimer]);
+
+  const handleDeleteChat = async () => {
+    if (!contact) return;
+
+    try {
+      const response = await fetch(`/api/chats/${contact.id}/messages`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        setShowDeleteModal(false);
+        onBack(); // Go back to chats list
+      } else {
+        alert("Failed to delete chat");
+      }
+    } catch (error) {
+      console.error("Failed to delete chat:", error);
+      alert("Failed to delete chat");
+    }
+  };
+
+  const openDeleteModal = () => {
+    setDeleteTimer(5);
+    setShowDeleteModal(true);
+  };
 
   if (!contact) {
     return (
@@ -711,16 +754,45 @@ function ContactInfoView({
               {contact.username?.substring(0, 2).toUpperCase() || "??"}
             </AvatarFallback>
           </Avatar>
-          <h2 className="text-lg font-medium text-neutral-100">{contact.username}</h2>
+          <h2 className="text-lg font-medium text-neutral-100">
+            {contactInfo?.nickname || contact.username}
+          </h2>
           <p className="text-xs text-neutral-400 mt-0.5">@{contact.username}</p>
-          <p className="text-xs text-neutral-400 mt-0.5">
+          <p className="text-xs text-neutral-400 mt-2">
             {contact.online ? "Active now" : "Last seen recently"}
           </p>
+
           {contactInfo?.bio && (
-            <p className="text-[13px] text-neutral-400 mt-3 text-center leading-relaxed">
-              {contactInfo.bio}
-            </p>
+            <div className="mt-4 w-full">
+              <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Bio</p>
+              <p className="text-[13px] text-neutral-300 leading-relaxed">
+                {contactInfo.bio}
+              </p>
+            </div>
           )}
+
+          {/* Action buttons */}
+          <div className="mt-4 w-full grid grid-cols-2 gap-2">
+            <button className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-neutral-200 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-colors border border-neutral-800">
+              <Bell className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+              <span className="flex-1 text-left">Mute sound</span>
+            </button>
+            <button className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-neutral-200 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-colors border border-neutral-800">
+              <Pin className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+              <span className="flex-1 text-left">Pin chat</span>
+            </button>
+            <button
+              onClick={openDeleteModal}
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:text-red-300 bg-neutral-900 hover:bg-red-950/30 transition-colors border border-neutral-800 hover:border-red-900"
+            >
+              <Trash2 className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+              <span className="flex-1 text-left">Delete chat</span>
+            </button>
+            <button className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:text-red-300 bg-neutral-900 hover:bg-red-950/30 transition-colors border border-neutral-800 hover:border-red-900">
+              <Ban className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+              <span className="flex-1 text-left">Block user</span>
+            </button>
+          </div>
         </div>
 
         <div className="px-4">
@@ -771,6 +843,39 @@ function ContactInfoView({
               alt="Avatar"
               className="w-full h-auto rounded-lg"
             />
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-neutral-900 border border-neutral-800 rounded-lg p-6 max-w-sm w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-medium text-neutral-100 mb-2">Delete chat?</h3>
+            <p className="text-sm text-neutral-400 mb-6">
+              This will permanently delete all messages in this chat. This action cannot be undone.
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm text-neutral-200 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-colors border border-neutral-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteChat}
+                disabled={deleteTimer > 0}
+                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:text-red-300 bg-neutral-900 hover:bg-red-950/30 transition-colors border border-neutral-800 hover:border-red-900 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {deleteTimer > 0 ? `Yes (${deleteTimer}s)` : "Yes"}
+              </button>
+            </div>
           </div>
         </div>
       )}

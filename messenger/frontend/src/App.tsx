@@ -31,6 +31,30 @@ function Messenger() {
   const [sidebarView, setSidebarView] = useState<SidebarView>("contacts");
   const wsRef = useRef<WebSocket | null>(null);
 
+  // Handle ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        if (sidebarView !== "contacts") {
+          // If in any menu, return to contacts
+          setSidebarView("contacts");
+        } else if (activeChat) {
+          // If in contacts and chat is active, close the chat
+          setActiveChat(null);
+          setMessages([]);
+        }
+        // Remove focus from any focused element
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [sidebarView, activeChat]);
+
   // Load current user
   useEffect(() => {
     if (!token) return;
@@ -75,15 +99,31 @@ function Messenger() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
-      setChats(data || []);
+
+      // Transform chat data to include other user's info
+      const transformedChats = (data || [])
+        .map((chat: any) => {
+          const otherUser = chat.users?.find((u: any) => u.id !== currentUser?.id);
+          return {
+            ...chat,
+            user_id: otherUser?.id,
+            username: otherUser?.nickname || otherUser?.username,
+            avatar: otherUser?.avatar,
+          };
+        })
+        .filter((chat: any) => chat.username); // Filter out chats without username
+
+      setChats(transformedChats);
     } catch (error) {
       console.error("Failed to load chats:", error);
     }
   };
 
   useEffect(() => {
-    loadChats();
-  }, [token]);
+    if (currentUser) {
+      loadChats();
+    }
+  }, [token, currentUser]);
 
   // WebSocket connection
   useEffect(() => {
@@ -223,8 +263,7 @@ function Messenger() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          name: selectedUser.username,
-          participants: [selectedUser.id],
+          user_id: selectedUser.id,
         }),
       });
 
@@ -234,8 +273,18 @@ function Messenger() {
       }
 
       const newChat = await response.json();
-      setChats((prev) => [...prev, newChat]);
-      setActiveChat(newChat);
+
+      // Transform chat data to include other user's info
+      const otherUser = newChat.users?.find((u: any) => u.id !== currentUser?.id);
+      const transformedChat = {
+        ...newChat,
+        user_id: otherUser?.id,
+        username: otherUser?.nickname || otherUser?.username,
+        avatar: otherUser?.avatar,
+      };
+
+      setChats((prev) => [...prev, transformedChat]);
+      setActiveChat(transformedChat);
       setSidebarView("contacts");
     } catch (error) {
       console.error("Failed to create chat:", error);

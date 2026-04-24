@@ -1,0 +1,17 @@
+2026/04/24 05:09:06 Migration note: avatar_url column might already exist
+2026/04/24 05:09:06 Migration note: bio column might already exist
+2026/04/24 05:09:06 Migration note: nickname column might already exist
+2026/04/24 05:09:06 Migration note: file_url column might already exist
+2026/04/24 05:09:06 Migration note: file_type column might already exist
+2026/04/24 05:09:06 Migration note: file_name column might already exist
+2026/04/24 05:09:06 SQLite database initialized
+2026/04/24 05:09:06 Server starting on :4000 with HTTP (no SSL certificates found)
+2026/04/24 05:09:17 Client connected: zaza (ID: 1)
+2026/04/24 05:09:20 GetMessages: chatID=2, found 9 messages
+2026/04/24 05:09:24 GetMessages: chatID=2, found 9 messages
+2026/04/24 05:09:30 DeleteChatMessages: chatID=2 messages deleted by userID=1
+2026/04/24 05:09:35 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
+2026/04/24 05:09:35 GetMessages: chatID=2, found 0 messages
+2026/04/24 05:09:37 GetMessages: chatID=2, found 0 messages
+2026/04/24 05:12:05 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
+2026/04/24 05:12:05 GetMessages: chatID=2, found 0 messages

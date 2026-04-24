@@ -78,6 +78,7 @@ func main() {
 	r.HandleFunc("/api/chats", handlers.CreateChat).Methods("POST", "OPTIONS")
 	r.HandleFunc("/api/chats/{id}", handlers.GetChat).Methods("GET", "OPTIONS")
 	r.HandleFunc("/api/chats/{id}/messages", handlers.GetMessages).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/chats/{id}/messages", handlers.DeleteChatMessages).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/api/messages/{id}", handlers.DeleteMessage).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/api/files/upload", handlers.UploadFile).Methods("POST", "OPTIONS")
 

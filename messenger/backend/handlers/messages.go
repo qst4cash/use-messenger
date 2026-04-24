@@ -91,3 +91,55 @@ func DeleteMessage(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"status": "deleted"})
 }
+
+func DeleteChatMessages(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	chatID, err := strconv.ParseInt(vars["id"], 10, 64)
+	if err != nil {
+		log.Printf("DeleteChatMessages: invalid chatID: %v", err)
+		http.Error(w, "Invalid chat ID", http.StatusBadRequest)
+		return
+	}
+
+	userID, ok := r.Context().Value("user_id").(int64)
+	if !ok {
+		log.Printf("DeleteChatMessages: user_id not found in context")
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	// Verify user is part of the chat
+	chat, err := db.Store.GetChatByID(chatID)
+	if err != nil || chat == nil {
+		log.Printf("DeleteChatMessages: chat not found: %v", err)
+		http.Error(w, "Chat not found", http.StatusNotFound)
+		return
+	}
+
+	// Check if user is part of the chat
+	isPartOfChat := false
+	for _, uid := range chat.Users {
+		if uid == userID {
+			isPartOfChat = true
+			break
+		}
+	}
+
+	if !isPartOfChat {
+		log.Printf("DeleteChatMessages: user not authorized for this chat")
+		http.Error(w, "Unauthorized", http.StatusForbidden)
+		return
+	}
+
+	err = db.Store.DeleteChatMessages(chatID)
+	if err != nil {
+		log.Printf("DeleteChatMessages: error: %v", err)
+		http.Error(w, "Failed to delete messages", http.StatusInternalServerError)
+		return
+	}
+
+	log.Printf("DeleteChatMessages: chatID=%d messages deleted by userID=%d", chatID, userID)
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"status": "deleted"})
+}

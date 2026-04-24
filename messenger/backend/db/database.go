@@ -400,6 +400,18 @@ func (db *DB) DeleteMessage(messageID, userID int64) error {
 	return nil
 }
 
+func (db *DB) DeleteChatMessages(chatID int64) error {
+	_, err := db.conn.Exec(
+		"DELETE FROM messages WHERE chat_id = ?",
+		chatID,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type DBError struct {
 	Message string
 }
