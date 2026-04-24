@@ -17,11 +17,18 @@ export default defineConfig({
     port: 3000,
     host: "0.0.0.0",
     proxy: {
-      "/api": "http://localhost:4000",
-      "/uploads": "http://localhost:4000",
+      "/api": {
+        target: process.env.VITE_API_URL || "http://backend:4000",
+        changeOrigin: true,
+      },
+      "/uploads": {
+        target: process.env.VITE_API_URL || "http://backend:4000",
+        changeOrigin: true,
+      },
       "/ws": {
-        target: "ws://localhost:4000",
+        target: process.env.VITE_WS_URL || "ws://backend:4000",
         ws: true,
+        changeOrigin: true,
       },
     },
   },

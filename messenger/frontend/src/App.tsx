@@ -129,7 +129,9 @@ function Messenger() {
   useEffect(() => {
     if (!token) return;
 
-    const ws = new WebSocket(`ws://localhost:4000/ws?token=${token}`);
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.host}/ws?token=${token}`;
+    const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
     ws.onopen = () => {
