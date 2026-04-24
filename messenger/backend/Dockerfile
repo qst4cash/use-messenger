@@ -2,6 +2,9 @@ FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
+# Разрешаем автоматическое обновление toolchain
+ENV GOTOOLCHAIN=auto
+
 # Копируем go.mod и go.sum
 COPY go.mod go.sum ./
 
