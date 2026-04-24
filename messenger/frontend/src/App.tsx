@@ -55,6 +55,11 @@ function Messenger() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [sidebarView, activeChat]);
 
+  // Get API base URL
+  const getApiUrl = () => {
+    return import.meta.env.VITE_API_URL || window.location.origin;
+  };
+
   // Load current user
   useEffect(() => {
     if (!token) return;
@@ -69,7 +74,7 @@ function Messenger() {
         return;
       }
 
-      fetch("/api/users", {
+      fetch(`${getApiUrl()}/api/users`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => {
@@ -95,7 +100,7 @@ function Messenger() {
     if (!token) return;
 
     try {
-      const response = await fetch("/api/chats", {
+      const response = await fetch(`${getApiUrl()}/api/chats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -129,8 +134,9 @@ function Messenger() {
   useEffect(() => {
     if (!token) return;
 
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws?token=${token}`;
+    const apiUrl = getApiUrl();
+    const wsHost = apiUrl.replace(/^http/, 'ws').replace(/^https/, 'wss');
+    const wsUrl = `${wsHost}/ws?token=${token}`;
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
@@ -203,7 +209,7 @@ function Messenger() {
       return;
     }
 
-    fetch(`/api/chats/${activeChat.id}/messages`, {
+    fetch(`${getApiUrl()}/api/chats/${activeChat.id}/messages`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -258,7 +264,7 @@ function Messenger() {
 
     // Create new chat
     try {
-      const response = await fetch("/api/chats", {
+      const response = await fetch(`${getApiUrl()}/api/chats`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -313,7 +319,7 @@ function Messenger() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("/api/files/upload", {
+      const response = await fetch(`${getApiUrl()}/api/files/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
