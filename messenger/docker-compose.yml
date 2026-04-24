@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: messenger-backend
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend/use.db:/app/use.db
+      - ./backend/uploads:/app/uploads
+    restart: unless-stopped
+    networks:
+      - messenger-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: messenger-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - messenger-network
+
+networks:
+  messenger-network:
+    driver: bridge
