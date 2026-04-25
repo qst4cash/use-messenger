@@ -13,9 +13,13 @@ type User struct {
 }
 
 type Chat struct {
-	ID        int64     `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
-	Users     []User    `json:"users,omitempty"`
+	ID                 int64     `json:"id"`
+	CreatedAt          time.Time `json:"created_at"`
+	Users              []User    `json:"users,omitempty"`
+	UnreadCount        int       `json:"unread_count,omitempty"`
+	LastMessage        string    `json:"last_message,omitempty"`
+	LastMessageTime    time.Time `json:"last_message_time,omitempty"`
+	LastMessageUserID  int64     `json:"last_message_user_id,omitempty"`
 }
 
 type Message struct {

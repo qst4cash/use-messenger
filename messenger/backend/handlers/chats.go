@@ -23,7 +23,19 @@ func GetChats(w http.ResponseWriter, r *http.Request) {
 	chats := db.Store.GetChatsByUserID(uid)
 	result := make([]models.Chat, len(chats))
 	for i, c := range chats {
-		result[i] = c.ToModel()
+		chatModel := c.ToModel()
+		// Add unread count for this chat
+		chatModel.UnreadCount = db.Store.GetUnreadCount(c.ID, uid)
+
+		// Add last message info
+		lastMsg := db.Store.GetLastMessage(c.ID)
+		if lastMsg != nil {
+			chatModel.LastMessage = lastMsg.Content
+			chatModel.LastMessageTime = lastMsg.CreatedAt
+			chatModel.LastMessageUserID = lastMsg.UserID
+		}
+
+		result[i] = chatModel
 	}
 
 	json.NewEncoder(w).Encode(result)

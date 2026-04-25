@@ -219,23 +219,25 @@ function ChatsView({
                       <span className={`text-sm truncate ${isActive ? "text-white font-medium" : "text-neutral-200"}`}>
                         {chat.username}
                       </span>
-                      {chat.last_message_time && (
-                        <span className="text-[10px] text-neutral-400 whitespace-nowrap shrink-0">
-                          {chat.last_message_time}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1 flex-1 min-w-0">
-                        {chat.last_message && chat.user_id !== currentUser?.id && (
+                      <div className="flex items-center gap-1 shrink-0">
+                        {chat.last_message_time && (
+                          <span className="text-[10px] text-neutral-400 whitespace-nowrap">
+                            {new Date(chat.last_message_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                          </span>
+                        )}
+                        {chat.last_message && chat.last_message_user_id === currentUser?.id && (
                           <>
                             {chat.read ? (
-                              <CheckCheck className="w-3 h-3 text-blue-500 shrink-0" />
+                              <CheckCheck className="w-3 h-3 text-blue-500" />
                             ) : (
-                              <Check className="w-3 h-3 text-neutral-500 shrink-0" />
+                              <Check className="w-3 h-3 text-neutral-500" />
                             )}
                           </>
                         )}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1 flex-1 min-w-0">
                         <span className="text-xs truncate text-neutral-400">
                           {chat.last_message
                             ? chat.last_message.length > 32
@@ -244,7 +246,7 @@ function ChatsView({
                             : "No messages yet"}
                         </span>
                       </div>
-                      {chat.unread && chat.unread > 0 && (
+                      {chat.unread > 0 && (
                         <span className="h-4 min-w-[16px] flex items-center justify-center px-1 text-[10px] rounded-full bg-neutral-200 text-neutral-950 font-medium shrink-0">
                           {chat.unread}
                         </span>
@@ -276,7 +278,11 @@ function SearchView({
 
   useEffect(() => {
     const fetchUsers = async () => {
-      if (!searchQuery.trim()) {
+      // Remove @ symbol from search query if present
+      const cleanQuery = searchQuery.replace(/^@/, '').trim();
+
+      // Require at least 3 characters to search (after removing @)
+      if (!cleanQuery || cleanQuery.length < 3) {
         setUsers([]);
         return;
       }
@@ -288,7 +294,8 @@ function SearchView({
         });
         const data = await response.json();
         const filtered = data.filter((u: any) =>
-          u.username.toLowerCase().includes(searchQuery.toLowerCase())
+          u.username.toLowerCase().includes(cleanQuery.toLowerCase()) ||
+          u.nickname?.toLowerCase().includes(cleanQuery.toLowerCase())
         );
         setUsers(filtered);
       } catch (error) {
@@ -755,11 +762,11 @@ function ContactInfoView({
             </AvatarFallback>
           </Avatar>
           <h2 className="text-lg font-medium text-neutral-100">
-            {contactInfo?.nickname || contact.username}
+            {contactInfo?.nickname || contactInfo?.username || contact.username}
           </h2>
-          <p className="text-xs text-neutral-400 mt-0.5">@{contact.username}</p>
+          <p className="text-xs text-neutral-400 mt-0.5">@{contactInfo?.username || contact.username}</p>
           <p className="text-xs text-neutral-400 mt-2">
-            {contact.online ? "Active now" : "Last seen recently"}
+            {contact.online ? "Online" : "Last seen recently"}
           </p>
 
           {contactInfo?.bio && (

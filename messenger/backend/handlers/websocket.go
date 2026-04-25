@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 	"sync"
 
 	"use-backend/auth"
@@ -14,9 +16,24 @@ import (
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		// Allow all origins for now (CORS is handled by main.go middleware)
-		return true
+		origin := r.Header.Get("Origin")
+		allowedOrigins := getAllowedOrigins()
+
+		for _, allowed := range allowedOrigins {
+			if origin == allowed {
+				return true
+			}
+		}
+		return false
 	},
+}
+
+func getAllowedOrigins() []string {
+	origins := os.Getenv("ALLOWED_ORIGINS")
+	if origins == "" {
+		return []string{"http://localhost:3000", "http://127.0.0.1:3000"}
+	}
+	return strings.Split(origins, ",")
 }
 
 type Client struct {
@@ -52,6 +69,9 @@ func (h *Hub) run() {
 			h.mu.Unlock()
 			log.Printf("Client connected: %s (ID: %d)", client.Username, client.UserID)
 
+			// Broadcast user online status
+			BroadcastUserStatus(client.UserID, true)
+
 		case client := <-h.unregister:
 			h.mu.Lock()
 			if _, ok := h.clients[client.UserID]; ok {
@@ -60,6 +80,9 @@ func (h *Hub) run() {
 			}
 			h.mu.Unlock()
 			log.Printf("Client disconnected: %s (ID: %d)", client.Username, client.UserID)
+
+			// Broadcast user offline status
+			BroadcastUserStatus(client.UserID, false)
 		}
 	}
 }
@@ -126,13 +149,30 @@ func (c *Client) readPump() {
 		}
 
 		if msg.Type == "message" {
+			// Validate message length (max 5000 characters)
+			if len(msg.Content) > 5000 {
+				log.Printf("Message too long from user %d: %d characters", c.UserID, len(msg.Content))
+				continue
+			}
+
 			savedMsg, err := db.Store.CreateMessage(msg.ChatID, c.UserID, msg.Content)
 			if err != nil {
 				log.Println("Failed to save message:", err)
 				continue
 			}
 
-			BroadcastMessage(savedMsg)
+			BroadcastMessage(savedMsg, c.Username)
+
+			// Broadcast unread count update to other users in the chat
+			chat, err := db.Store.GetChatByID(msg.ChatID)
+			if err == nil {
+				for _, uid := range chat.Users {
+					if uid != c.UserID {
+						unreadCount := db.Store.GetUnreadCount(msg.ChatID, uid)
+						BroadcastUnreadCount(msg.ChatID, uid, unreadCount)
+					}
+				}
+			}
 		} else if msg.Type == "call_offer" || msg.Type == "call_answer" || msg.Type == "ice_candidate" || msg.Type == "call_end" {
 			// WebRTC signaling - forward to specific user
 			if msg.ToUserID > 0 {
@@ -194,18 +234,28 @@ func BroadcastAvatarUpdate(userID int64, avatarURL string) {
 	}
 }
 
-func BroadcastMessage(message *db.Message) {
-	log.Printf("BroadcastMessage: msgID=%d, chatID=%d, userID=%d", message.ID, message.ChatID, message.UserID)
+func BroadcastMessage(message *db.Message, username string) {
+	log.Printf("BroadcastMessage: msgID=%d, chatID=%d, userID=%d, username=%s", message.ID, message.ChatID, message.UserID, username)
+
+	// Determine message type based on file_type
+	messageType := "text"
+	if message.FileType != "" {
+		messageType = message.FileType
+	}
+
 	msg := map[string]interface{}{
-		"type":      "message",
-		"id":        message.ID,
-		"chat_id":   message.ChatID,
-		"user_id":   message.UserID,
-		"content":   message.Content,
-		"file_url":  message.FileURL,
-		"file_type": message.FileType,
-		"file_name": message.FileName,
-		"read":      message.Read,
+		"type":         "message",
+		"id":           message.ID,
+		"chat_id":      message.ChatID,
+		"user_id":      message.UserID,
+		"username":     username,
+		"content":      message.Content,
+		"file_url":     message.FileURL,
+		"file_type":    message.FileType,
+		"file_name":    message.FileName,
+		"read":         message.Read,
+		"created_at":   message.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
+		"message_type": messageType,
 	}
 	data, _ := json.Marshal(msg)
 
@@ -239,6 +289,74 @@ func BroadcastMessageDelete(messageID int64) {
 			log.Printf("Sent message delete to client %d", clientID)
 		default:
 			log.Printf("Failed to send message delete to client %d (channel full)", clientID)
+		}
+	}
+}
+
+func BroadcastUserStatus(userID int64, online bool) {
+	log.Printf("BroadcastUserStatus: userID=%d, online=%v", userID, online)
+	msg := map[string]interface{}{
+		"type":    "user_status",
+		"user_id": userID,
+		"online":  online,
+	}
+	data, _ := json.Marshal(msg)
+
+	hub.mu.RLock()
+	defer hub.mu.RUnlock()
+
+	for clientID, client := range hub.clients {
+		select {
+		case client.Send <- data:
+			log.Printf("Sent user status to client %d", clientID)
+		default:
+			log.Printf("Failed to send user status to client %d (channel full)", clientID)
+		}
+	}
+}
+
+func BroadcastMessagesRead(chatID int64, userID int64) {
+	log.Printf("BroadcastMessagesRead: chatID=%d, userID=%d", chatID, userID)
+	msg := map[string]interface{}{
+		"type":    "messages_read",
+		"chat_id": chatID,
+		"user_id": userID,
+	}
+	data, _ := json.Marshal(msg)
+
+	hub.mu.RLock()
+	defer hub.mu.RUnlock()
+
+	for clientID, client := range hub.clients {
+		select {
+		case client.Send <- data:
+			log.Printf("Sent messages read to client %d", clientID)
+		default:
+			log.Printf("Failed to send messages read to client %d (channel full)", clientID)
+		}
+	}
+}
+
+func BroadcastUnreadCount(chatID int64, userID int64, count int) {
+	log.Printf("BroadcastUnreadCount: chatID=%d, userID=%d, count=%d", chatID, userID, count)
+	msg := map[string]interface{}{
+		"type":         "unread_count",
+		"chat_id":      chatID,
+		"user_id":      userID,
+		"unread_count": count,
+	}
+	data, _ := json.Marshal(msg)
+
+	hub.mu.RLock()
+	defer hub.mu.RUnlock()
+
+	// Send only to the specific user
+	if client, ok := hub.clients[userID]; ok {
+		select {
+		case client.Send <- data:
+			log.Printf("Sent unread count to client %d", userID)
+		default:
+			log.Printf("Failed to send unread count to client %d (channel full)", userID)
 		}
 	}
 }

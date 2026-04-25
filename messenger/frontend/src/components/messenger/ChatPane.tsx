@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Phone, Info, Paperclip, Send, Mic, Play, Check, CheckCheck } from "lucide-react";
+import { Search, Phone, Info, Paperclip, Send, Mic, Play, Check, CheckCheck, X, Download, FileText } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +11,7 @@ interface Message {
   isOutgoing: boolean;
   type?: "text" | "voice" | "image" | "file";
   read?: boolean;
+  file_name?: string;
 }
 
 interface ChatPaneProps {
@@ -27,6 +28,8 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
   const [isRecording, setIsRecording] = useState(false);
   const [audioLevel, setAudioLevel] = useState(0);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string>("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -38,19 +41,43 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
       const v = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]");
       if (v) v.scrollTop = v.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, chat]);
+
+  // Handle ESC key to close image modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && imageModalOpen) {
+        setImageModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [imageModalOpen]);
 
   useEffect(() => {
     return () => {
       // Cleanup MediaRecorder on unmount
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-        mediaRecorderRef.current.stop();
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
+      cleanupMediaRecorder();
     };
   }, []);
+
+  // Cleanup when chat changes
+  useEffect(() => {
+    cleanupMediaRecorder();
+  }, [chat?.id]);
+
+  const cleanupMediaRecorder = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop();
+    }
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+    }
+    setIsRecording(false);
+    setAudioLevel(0);
+    setRecordedBlob(null);
+  };
 
   const handleSend = () => {
     if (recordedBlob) {
@@ -126,6 +153,13 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validate file size (50MB limit)
+      const maxSize = 50 * 1024 * 1024; // 50MB in bytes
+      if (file.size > maxSize) {
+        alert(`File is too large. Maximum size is 50MB. Your file is ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        e.target.value = ''; // Reset input
+        return;
+      }
       onFileUpload(file);
     }
   };
@@ -224,7 +258,7 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
                     className={`flex w-full ${msg.isOutgoing ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`flex gap-3 max-w-[65%] ${
+                      className={`flex gap-3 max-w-[45%] ${
                         msg.isOutgoing ? "flex-row-reverse" : "flex-row"
                       }`}
                     >
@@ -256,7 +290,7 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
                               ? "border border-neutral-800 text-neutral-300"
                               : "bg-neutral-900 text-neutral-100"
                           }`}
-                          style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+                          style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "pre-wrap", maxWidth: "100%", wordBreak: "break-word" }}
                         >
                           {msg.type === "voice" ? (
                             <div className="flex items-center gap-3 min-w-[200px]">
@@ -271,7 +305,25 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
                               </div>
                             </div>
                           ) : msg.type === "image" ? (
-                            <img src={`/uploads/${msg.content}`} alt="Shared" className="max-w-xs rounded" />
+                            <img
+                              src={msg.content}
+                              alt="Shared"
+                              className="max-w-xs rounded cursor-pointer hover:opacity-90 transition-opacity"
+                              onClick={() => {
+                                setSelectedImage(msg.content);
+                                setImageModalOpen(true);
+                              }}
+                            />
+                          ) : msg.type === "file" ? (
+                            <a
+                              href={msg.content}
+                              download={msg.file_name || msg.content}
+                              className="flex items-center gap-2 px-3 py-2 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors"
+                            >
+                              <FileText className="w-4 h-4 text-neutral-400" />
+                              <span className="text-sm">{msg.file_name || msg.content}</span>
+                              <Download className="w-4 h-4 text-neutral-400 ml-2" />
+                            </a>
                           ) : (
                             msg.content
                           )}
@@ -395,6 +447,27 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
       </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Image Modal */}
+      {imageModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          onClick={() => setImageModalOpen(false)}
+        >
+          <button
+            className="absolute top-4 right-4 p-2 rounded-full bg-neutral-800 hover:bg-neutral-700 transition-colors"
+            onClick={() => setImageModalOpen(false)}
+          >
+            <X className="w-6 h-6 text-white" />
+          </button>
+          <img
+            src={selectedImage}
+            alt="Full size"
+            className="max-w-[90vw] max-h-[90vh] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }

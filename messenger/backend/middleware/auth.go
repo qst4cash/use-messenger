@@ -27,9 +27,15 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
+		// Check if path starts with /uploads/ (static files)
+		if strings.HasPrefix(r.URL.Path, "/uploads/") {
+			next.ServeHTTP(w, r)
+			return
+		}
+
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
-			next.ServeHTTP(w, r)
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
 

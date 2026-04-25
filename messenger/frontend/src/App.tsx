@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/hooks/use-toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Auth from "@/pages/auth";
@@ -20,9 +21,12 @@ interface Message {
   content: string;
   created_at: string;
   type?: string;
+  read?: boolean;
+  file_name?: string;
 }
 
 function Messenger() {
+  const { toast } = useToast();
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [chats, setChats] = useState<any[]>([]);
@@ -30,6 +34,19 @@ function Messenger() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [sidebarView, setSidebarView] = useState<SidebarView>("contacts");
   const wsRef = useRef<WebSocket | null>(null);
+  const activeChatRef = useRef<any>(null);
+  const currentUserRef = useRef<any>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectAttemptsRef = useRef(0);
+
+  // Keep refs in sync
+  useEffect(() => {
+    activeChatRef.current = activeChat;
+  }, [activeChat]);
+
+  useEffect(() => {
+    currentUserRef.current = currentUser;
+  }, [currentUser]);
 
   // Handle ESC key
   useEffect(() => {
@@ -114,6 +131,10 @@ function Messenger() {
             user_id: otherUser?.id,
             username: otherUser?.nickname || otherUser?.username,
             avatar: otherUser?.avatar,
+            unread: chat.unread_count || 0,
+            last_message: chat.last_message || '',
+            last_message_time: chat.last_message_time || null,
+            last_message_user_id: chat.last_message_user_id || null,
           };
         })
         .filter((chat: any) => chat.username); // Filter out chats without username
@@ -130,75 +151,154 @@ function Messenger() {
     }
   }, [token, currentUser]);
 
-  // WebSocket connection
+  // WebSocket connection with reconnection
   useEffect(() => {
     if (!token) return;
 
-    const apiUrl = getApiUrl();
-    const wsHost = apiUrl.replace(/^http/, 'ws').replace(/^https/, 'wss');
-    const wsUrl = `${wsHost}/ws?token=${token}`;
-    const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
+    const connectWebSocket = () => {
+      const apiUrl = getApiUrl();
+      const wsHost = apiUrl.replace(/^http/, 'ws').replace(/^https/, 'wss');
+      const wsUrl = `${wsHost}/ws?token=${token}`;
+      const ws = new WebSocket(wsUrl);
+      wsRef.current = ws;
 
-    ws.onopen = () => {
-      console.log("WebSocket connected");
-    };
+      ws.onopen = () => {
+        console.log("WebSocket connected");
+        reconnectAttemptsRef.current = 0;
+      };
 
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
 
-        if (data.type === "message") {
-          const newMessage: Message = {
-            id: data.id?.toString() || Date.now().toString(),
-            chat_id: data.chat_id,
-            user_id: data.user_id,
-            username: data.username,
-            content: data.content,
-            created_at: data.created_at,
-            type: data.message_type,
-          };
+          if (data.type === "message") {
+            const newMessage: Message = {
+              id: data.id?.toString() || Date.now().toString(),
+              chat_id: data.chat_id,
+              user_id: data.user_id,
+              username: data.username,
+              content: data.file_url || data.content,
+              created_at: data.created_at,
+              type: data.message_type,
+              read: data.read || false,
+              file_name: data.file_name || '',
+            };
 
-          // Add message if it's for active chat
-          setMessages((prev) => {
-            if (activeChat && data.chat_id === activeChat.id) {
-              // Avoid duplicates
-              if (prev.some(m => m.id === newMessage.id)) return prev;
-              return [...prev, newMessage];
+            // Add message if it's for active chat - use ref to avoid stale closure
+            setMessages((prev) => {
+              if (activeChatRef.current && data.chat_id === activeChatRef.current.id) {
+                // Avoid duplicates
+                if (prev.some(m => m.id === newMessage.id)) return prev;
+
+                // Add isOutgoing field
+                const messageWithOutgoing = {
+                  ...newMessage,
+                  isOutgoing: currentUserRef.current && data.user_id === currentUserRef.current.id
+                };
+
+                return [...prev, messageWithOutgoing];
+              }
+              return prev;
+            });
+
+            // Update chat list
+            setChats((prevChats) => {
+              const chatIndex = prevChats.findIndex(c => c.id === data.chat_id);
+              if (chatIndex !== -1) {
+                const updatedChats = [...prevChats];
+                updatedChats[chatIndex] = {
+                  ...updatedChats[chatIndex],
+                  last_message: data.content,
+                  last_message_time: data.created_at,
+                  last_message_user_id: data.user_id,
+                  read: false,
+                };
+                return updatedChats;
+              }
+              return prevChats;
+            });
+          } else if (data.type === "user_status") {
+            // Update user online status
+            setChats((prevChats) => {
+              return prevChats.map(chat => {
+                if (chat.user_id === data.user_id) {
+                  return { ...chat, online: data.online };
+                }
+                return chat;
+              });
+            });
+
+            // Update active chat if it's the same user
+            if (activeChatRef.current && activeChatRef.current.user_id === data.user_id) {
+              setActiveChat((prev: any) => prev ? { ...prev, online: data.online } : prev);
             }
-            return prev;
-          });
-
-          // Update chat list only if not already loading
-          setChats((prevChats) => {
-            const chatIndex = prevChats.findIndex(c => c.id === data.chat_id);
-            if (chatIndex !== -1) {
-              const updatedChats = [...prevChats];
-              updatedChats[chatIndex] = {
-                ...updatedChats[chatIndex],
-                last_message: data.content,
-                last_message_time: data.created_at,
-              };
-              return updatedChats;
+          } else if (data.type === "messages_read") {
+            // Mark messages as read in active chat
+            if (activeChatRef.current && activeChatRef.current.id === data.chat_id) {
+              setMessages((prev) =>
+                prev.map(msg =>
+                  msg.user_id === currentUserRef.current?.id ? { ...msg, read: true } : msg
+                )
+              );
             }
-            return prevChats;
-          });
+
+            // Update chat list to show read status - only if last message was from current user
+            setChats((prevChats) => {
+              return prevChats.map(chat => {
+                if (chat.id === data.chat_id && chat.last_message_user_id === currentUserRef.current?.id) {
+                  return { ...chat, read: true };
+                }
+                return chat;
+              });
+            });
+          } else if (data.type === "unread_count") {
+            // Update unread count for specific chat
+            if (data.user_id === currentUserRef.current?.id) {
+              setChats((prevChats) => {
+                return prevChats.map(chat => {
+                  if (chat.id === data.chat_id) {
+                    return { ...chat, unread: data.unread_count };
+                  }
+                  return chat;
+                });
+              });
+            }
+          }
+        } catch (error) {
+          console.error("WebSocket message error:", error);
         }
-      } catch (error) {
-        console.error("WebSocket message error:", error);
-      }
+      };
+
+      ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      ws.onclose = () => {
+        console.log("WebSocket disconnected");
+        wsRef.current = null;
+
+        // Attempt to reconnect with exponential backoff
+        if (reconnectAttemptsRef.current < 10) {
+          const delay = Math.min(1000 * Math.pow(2, reconnectAttemptsRef.current), 30000);
+          console.log(`Reconnecting in ${delay}ms...`);
+          reconnectAttemptsRef.current++;
+
+          reconnectTimeoutRef.current = setTimeout(() => {
+            connectWebSocket();
+          }, delay);
+        }
+      };
     };
 
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    ws.onclose = () => {
-      console.log("WebSocket disconnected");
-    };
+    connectWebSocket();
 
     return () => {
-      ws.close();
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
     };
   }, [token]);
 
@@ -208,6 +308,13 @@ function Messenger() {
       setMessages([]);
       return;
     }
+
+    // Reset unread count for this chat
+    setChats((prevChats) =>
+      prevChats.map(chat =>
+        chat.id === activeChat.id ? { ...chat, unread: 0 } : chat
+      )
+    );
 
     fetch(`${getApiUrl()}/api/chats/${activeChat.id}/messages`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -219,10 +326,12 @@ function Messenger() {
           chat_id: msg.chat_id,
           user_id: msg.user_id,
           username: msg.username,
-          content: msg.content,
+          content: msg.file_url || msg.content,
           created_at: msg.created_at,
           isOutgoing: msg.user_id === currentUser?.id,
-          type: msg.type,
+          type: msg.file_type ? msg.file_type : "text",
+          read: msg.read || false,
+          file_name: msg.file_name || '',
         }));
         setMessages(formattedMessages);
       })
@@ -302,6 +411,15 @@ function Messenger() {
   const handleSendMessage = (text: string, type: string = "text") => {
     if (!activeChat || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
 
+    // Validate message length (max 5000 characters)
+    if (type === "text" && text.trim().length > 5000) {
+      toast({
+        title: "Message too long",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const message = {
       type: "message",
       chat_id: activeChat.id,
@@ -315,8 +433,20 @@ function Messenger() {
   const handleFileUpload = async (file: File) => {
     if (!activeChat || !token) return;
 
+    // Check file size (50MB max)
+    const maxSize = 50 * 1024 * 1024; // 50MB
+    if (file.size > maxSize) {
+      toast({
+        title: "File too large",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("chat_id", activeChat.id.toString());
+    formData.append("file_type", file.type.startsWith("image/") ? "image" : file.type.startsWith("video/") ? "video" : file.type.startsWith("audio/") ? "audio" : "file");
 
     try {
       const response = await fetch(`${getApiUrl()}/api/files/upload`, {
@@ -328,17 +458,24 @@ function Messenger() {
       });
 
       if (!response.ok) {
-        console.error("File upload failed:", response.statusText);
+        toast({
+          title: "Upload failed",
+          variant: "destructive",
+        });
         return;
       }
 
       const data = await response.json();
-
-      if (data.filename) {
-        handleSendMessage(data.filename, file.type.startsWith("image/") ? "image" : "file");
-      }
+      console.log("File uploaded successfully:", data);
+      toast({
+        title: "File uploaded",
+      });
     } catch (error) {
       console.error("Failed to upload file:", error);
+      toast({
+        title: "Upload failed",
+        variant: "destructive",
+      });
     }
   };
 

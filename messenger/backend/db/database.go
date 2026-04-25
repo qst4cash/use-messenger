@@ -379,6 +379,36 @@ func (db *DB) MarkMessagesAsRead(chatID, userID int64) error {
 	return err
 }
 
+func (db *DB) GetUnreadCount(chatID, userID int64) int {
+	var count int
+	err := db.conn.QueryRow(
+		"SELECT COUNT(*) FROM messages WHERE chat_id = ? AND user_id != ? AND read = 0",
+		chatID, userID,
+	).Scan(&count)
+	if err != nil {
+		return 0
+	}
+	return count
+}
+
+func (db *DB) GetLastMessage(chatID int64) *Message {
+	var msg Message
+	var readInt int
+	var createdAt string
+	err := db.conn.QueryRow(
+		"SELECT id, chat_id, user_id, content, file_url, file_type, file_name, read, created_at FROM messages WHERE chat_id = ? ORDER BY id DESC LIMIT 1",
+		chatID,
+	).Scan(&msg.ID, &msg.ChatID, &msg.UserID, &msg.Content, &msg.FileURL, &msg.FileType, &msg.FileName, &readInt, &createdAt)
+
+	if err != nil {
+		return nil
+	}
+
+	msg.Read = readInt == 1
+	msg.CreatedAt, _ = time.Parse("2006-01-02 15:04:05", createdAt)
+	return &msg
+}
+
 func (db *DB) DeleteMessage(messageID, userID int64) error {
 	result, err := db.conn.Exec(
 		"DELETE FROM messages WHERE id = ? AND user_id = ?",

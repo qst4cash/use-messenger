@@ -33,6 +33,9 @@ func GetMessages(w http.ResponseWriter, r *http.Request) {
 	err = db.Store.MarkMessagesAsRead(chatID, userID)
 	if err != nil {
 		log.Printf("GetMessages: MarkMessagesAsRead error: %v", err)
+	} else {
+		// Broadcast that messages were read
+		BroadcastMessagesRead(chatID, userID)
 	}
 
 	msgs := db.Store.GetMessagesByChatID(chatID)

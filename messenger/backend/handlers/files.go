@@ -103,8 +103,15 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("UploadFile: success, fileURL=%s", fileURL)
 
+	// Get username for broadcast
+	user, err := db.Store.GetUserByID(userID)
+	username := ""
+	if err == nil && user != nil {
+		username = user.Username
+	}
+
 	// Broadcast to WebSocket clients
-	BroadcastMessage(msg)
+	BroadcastMessage(msg, username)
 
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"id":        msg.ID,
