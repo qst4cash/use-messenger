@@ -30,16 +30,25 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [playingAudio, setPlayingAudio] = useState<string | null>(null);
+  const [audioProgress, setAudioProgress] = useState<{ [key: string]: number }>({});
+  const [audioDuration, setAudioDuration] = useState<{ [key: string]: number }>({});
   const scrollRef = useRef<HTMLDivElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
       const v = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]");
-      if (v) v.scrollTop = v.scrollHeight;
+      if (v) {
+        // Use setTimeout to ensure DOM is fully rendered
+        setTimeout(() => {
+          v.scrollTop = v.scrollHeight;
+        }, 100);
+      }
     }
   }, [messages, chat]);
 
@@ -81,14 +90,10 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
 
   const handleSend = () => {
     if (recordedBlob) {
-      // Send voice message
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        onSendMessage(base64, "voice");
-        setRecordedBlob(null);
-      };
-      reader.readAsDataURL(recordedBlob);
+      // Send voice message as file upload
+      const file = new File([recordedBlob], "voice.webm", { type: "audio/webm" });
+      onFileUpload(file);
+      setRecordedBlob(null);
     } else if (inputValue.trim()) {
       onSendMessage(inputValue.trim(), "text");
       setInputValue("");
@@ -162,6 +167,51 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
       }
       onFileUpload(file);
     }
+  };
+
+  const toggleAudioPlay = (audioUrl: string) => {
+    if (playingAudio === audioUrl) {
+      // Stop playing
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      setPlayingAudio(null);
+      setAudioProgress((prev) => ({ ...prev, [audioUrl]: 0 }));
+    } else {
+      // Start playing
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+
+      // Load metadata to get duration
+      audio.addEventListener('loadedmetadata', () => {
+        setAudioDuration((prev) => ({ ...prev, [audioUrl]: audio.duration }));
+      });
+
+      // Update progress
+      audio.addEventListener('timeupdate', () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        setAudioProgress((prev) => ({ ...prev, [audioUrl]: progress }));
+      });
+
+      audio.play();
+      setPlayingAudio(audioUrl);
+
+      audio.onended = () => {
+        setPlayingAudio(null);
+        setAudioProgress((prev) => ({ ...prev, [audioUrl]: 0 }));
+      };
+    }
+  };
+
+  const formatDuration = (seconds: number) => {
+    if (!seconds || isNaN(seconds)) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const formatTime = (timestamp: string) => {
@@ -294,14 +344,57 @@ export function ChatPane({ chat, messages, onSendMessage, onFileUpload, onTitleC
                         >
                           {msg.type === "voice" ? (
                             <div className="flex items-center gap-3 min-w-[200px]">
-                              <button className="w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 flex items-center justify-center transition-colors">
-                                <Play className="w-4 h-4 ml-0.5" />
+                              <button
+                                onClick={() => toggleAudioPlay(msg.content)}
+                                className="w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 flex items-center justify-center transition-colors shrink-0"
+                              >
+                                {playingAudio === msg.content ? (
+                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                                ) : (
+                                  <Play className="w-4 h-4 ml-0.5" />
+                                )}
                               </button>
-                              <div className="flex-1">
+                              <div className="flex-1 min-w-0">
                                 <div className="h-1 bg-neutral-800 rounded-full overflow-hidden">
-                                  <div className="h-full bg-blue-500 w-0" />
+                                  <div
+                                    className="h-full bg-blue-500 transition-all duration-100"
+                                    style={{ width: `${audioProgress[msg.content] || 0}%` }}
+                                  />
                                 </div>
-                                <div className="text-[10px] text-neutral-500 mt-1">Voice message</div>
+                                <div className="flex items-center justify-between mt-1">
+                                  <div className="text-[10px] text-neutral-500">Voice message</div>
+                                  <div className="text-[10px] text-neutral-400">
+                                    {formatDuration(audioDuration[msg.content] || 0)}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ) : msg.type === "audio" ? (
+                            <div className="flex items-center gap-3 min-w-[200px]">
+                              <button
+                                onClick={() => toggleAudioPlay(msg.content)}
+                                className="w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 flex items-center justify-center transition-colors shrink-0"
+                              >
+                                {playingAudio === msg.content ? (
+                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                                ) : (
+                                  <Play className="w-4 h-4 ml-0.5" />
+                                )}
+                              </button>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-[11px] text-neutral-300 truncate">{msg.file_name || "Audio file"}</div>
+                                <div className="h-1 bg-neutral-800 rounded-full overflow-hidden mt-1">
+                                  <div
+                                    className="h-full bg-blue-500 transition-all duration-100"
+                                    style={{ width: `${audioProgress[msg.content] || 0}%` }}
+                                  />
+                                </div>
+                                <div className="flex items-center justify-between mt-1">
+                                  <div className="text-[10px] text-neutral-500">Audio</div>
+                                  <div className="text-[10px] text-neutral-400">
+                                    {formatDuration(audioDuration[msg.content] || 0)}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           ) : msg.type === "image" ? (

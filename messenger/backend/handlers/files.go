@@ -36,7 +36,6 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fileType := r.FormValue("file_type") // "image", "video", "audio"
-	caption := r.FormValue("caption")
 
 	file, header, err := r.FormFile("file")
 	if err != nil {
@@ -94,7 +93,8 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	// Save message to database
 	fileURL := fmt.Sprintf("/uploads/files/%s/%s", fileType, filename)
-	msg, err := db.Store.CreateMessageWithFile(chatID, userID, caption, fileURL, fileType, originalFilename)
+	// Use fileURL as content for file messages
+	msg, err := db.Store.CreateMessageWithFile(chatID, userID, fileURL, fileURL, fileType, originalFilename)
 	if err != nil {
 		log.Printf("UploadFile: CreateMessageWithFile error: %v", err)
 		http.Error(w, "Failed to save message", http.StatusInternalServerError)

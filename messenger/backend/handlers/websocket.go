@@ -88,15 +88,16 @@ func (h *Hub) run() {
 }
 
 type WSMessage struct {
-	Type      string                 `json:"type"`
-	ChatID    int64                  `json:"chat_id,omitempty"`
-	Content   string                 `json:"content,omitempty"`
-	UserID    int64                  `json:"user_id,omitempty"`
-	ToUserID  int64                  `json:"to_user_id,omitempty"`
-	FromUserID int64                 `json:"from_user_id,omitempty"`
-	Offer     map[string]interface{} `json:"offer,omitempty"`
-	Answer    map[string]interface{} `json:"answer,omitempty"`
-	Candidate map[string]interface{} `json:"candidate,omitempty"`
+	Type        string                 `json:"type"`
+	ChatID      int64                  `json:"chat_id,omitempty"`
+	Content     string                 `json:"content,omitempty"`
+	MessageType string                 `json:"message_type,omitempty"`
+	UserID      int64                  `json:"user_id,omitempty"`
+	ToUserID    int64                  `json:"to_user_id,omitempty"`
+	FromUserID  int64                  `json:"from_user_id,omitempty"`
+	Offer       map[string]interface{} `json:"offer,omitempty"`
+	Answer      map[string]interface{} `json:"answer,omitempty"`
+	Candidate   map[string]interface{} `json:"candidate,omitempty"`
 }
 
 func HandleWebSocket(upgrader websocket.Upgrader, w http.ResponseWriter, r *http.Request) {
@@ -155,7 +156,18 @@ func (c *Client) readPump() {
 				continue
 			}
 
-			savedMsg, err := db.Store.CreateMessage(msg.ChatID, c.UserID, msg.Content)
+			var savedMsg *db.Message
+			var err error
+
+			// Check if it's a voice message or regular text
+			if msg.MessageType == "voice" {
+				// Save as voice message with file type
+				savedMsg, err = db.Store.CreateMessageWithFile(msg.ChatID, c.UserID, msg.Content, "", "voice", "")
+			} else {
+				// Regular text message
+				savedMsg, err = db.Store.CreateMessage(msg.ChatID, c.UserID, msg.Content)
+			}
+
 			if err != nil {
 				log.Println("Failed to save message:", err)
 				continue

@@ -32,6 +32,7 @@ interface Chat {
   avatar?: string;
   last_message?: string;
   last_message_time?: string;
+  last_message_type?: string;
   unread?: number;
   online?: boolean;
   read?: boolean;
@@ -238,8 +239,25 @@ function ChatsView({
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1 flex-1 min-w-0">
+                        {chat.last_message_type === "image" && (
+                          <ImageIcon className="w-3 h-3 text-neutral-500 shrink-0" />
+                        )}
+                        {chat.last_message_type === "video" && (
+                          <FileText className="w-3 h-3 text-neutral-500 shrink-0" />
+                        )}
+                        {(chat.last_message_type === "audio" || chat.last_message_type === "voice") && (
+                          <Mic className="w-3 h-3 text-neutral-500 shrink-0" />
+                        )}
                         <span className="text-xs truncate text-neutral-400">
-                          {chat.last_message
+                          {chat.last_message_type === "image"
+                            ? "Photo"
+                            : chat.last_message_type === "video"
+                            ? "Video"
+                            : chat.last_message_type === "audio"
+                            ? "Audio"
+                            : chat.last_message_type === "voice"
+                            ? "Voice message"
+                            : chat.last_message
                             ? chat.last_message.length > 32
                               ? chat.last_message.substring(0, 32) + "..."
                               : chat.last_message

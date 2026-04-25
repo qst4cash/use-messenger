@@ -33,6 +33,7 @@ func GetChats(w http.ResponseWriter, r *http.Request) {
 			chatModel.LastMessage = lastMsg.Content
 			chatModel.LastMessageTime = lastMsg.CreatedAt
 			chatModel.LastMessageUserID = lastMsg.UserID
+			chatModel.LastMessageType = lastMsg.FileType
 		}
 
 		result[i] = chatModel

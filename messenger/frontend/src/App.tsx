@@ -135,6 +135,7 @@ function Messenger() {
             last_message: chat.last_message || '',
             last_message_time: chat.last_message_time || null,
             last_message_user_id: chat.last_message_user_id || null,
+            last_message_type: chat.last_message_type || '',
           };
         })
         .filter((chat: any) => chat.username); // Filter out chats without username
@@ -211,6 +212,7 @@ function Messenger() {
                   last_message: data.content,
                   last_message_time: data.created_at,
                   last_message_user_id: data.user_id,
+                  last_message_type: data.message_type || '',
                   read: false,
                 };
                 return updatedChats;
@@ -446,7 +448,20 @@ function Messenger() {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("chat_id", activeChat.id.toString());
-    formData.append("file_type", file.type.startsWith("image/") ? "image" : file.type.startsWith("video/") ? "video" : file.type.startsWith("audio/") ? "audio" : "file");
+
+    // Determine file type - voice messages have specific name
+    let fileType = "file";
+    if (file.name === "voice.webm") {
+      fileType = "voice";
+    } else if (file.type.startsWith("image/")) {
+      fileType = "image";
+    } else if (file.type.startsWith("video/")) {
+      fileType = "video";
+    } else if (file.type.startsWith("audio/")) {
+      fileType = "audio";
+    }
+
+    formData.append("file_type", fileType);
 
     try {
       const response = await fetch(`${getApiUrl()}/api/files/upload`, {
@@ -468,7 +483,7 @@ function Messenger() {
       const data = await response.json();
       console.log("File uploaded successfully:", data);
       toast({
-        title: "File uploaded",
+        title: fileType === "voice" ? "Voice message sent" : "File uploaded",
       });
     } catch (error) {
       console.error("Failed to upload file:", error);

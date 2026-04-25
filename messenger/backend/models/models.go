@@ -20,6 +20,7 @@ type Chat struct {
 	LastMessage        string    `json:"last_message,omitempty"`
 	LastMessageTime    time.Time `json:"last_message_time,omitempty"`
 	LastMessageUserID  int64     `json:"last_message_user_id,omitempty"`
+	LastMessageType    string    `json:"last_message_type,omitempty"`
 }
 
 type Message struct {

@@ -1,665 +1,103 @@
-2026/04/25 06:18:51 Migration note: avatar_url column might already exist
-2026/04/25 06:18:51 Migration note: bio column might already exist
-2026/04/25 06:18:51 Migration note: nickname column might already exist
-2026/04/25 06:18:51 Migration note: file_url column might already exist
-2026/04/25 06:18:51 Migration note: file_type column might already exist
-2026/04/25 06:18:51 Migration note: file_name column might already exist
-2026/04/25 06:18:51 SQLite database initialized
-2026/04/25 06:18:51 Server starting on :4000 with HTTP (no SSL certificates found)
-2026/04/25 06:18:53 Client connected: qwerty (ID: 2)
-2026/04/25 06:18:53 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:18:53 Sent user status to client 2
-2026/04/25 06:18:53 Client connected: zaza (ID: 1)
-2026/04/25 06:18:53 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:18:53 Sent user status to client 2
-2026/04/25 06:18:53 Sent user status to client 1
-2026/04/25 06:19:04 Client connected: zaza (ID: 1)
-2026/04/25 06:19:04 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:04 Sent user status to client 2
-2026/04/25 06:19:04 Sent user status to client 1
-2026/04/25 06:19:04 Client connected: qwerty (ID: 2)
-2026/04/25 06:19:04 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:19:04 Sent user status to client 2
-2026/04/25 06:19:04 Sent user status to client 1
-2026/04/25 06:19:04 Client connected: zaza (ID: 1)
-2026/04/25 06:19:04 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:04 Sent user status to client 2
-2026/04/25 06:19:04 Sent user status to client 1
-2026/04/25 06:19:04 Client connected: qwerty (ID: 2)
-2026/04/25 06:19:04 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:19:04 Sent user status to client 2
-2026/04/25 06:19:04 Sent user status to client 1
-2026/04/25 06:19:06 Client connected: qwerty (ID: 2)
-2026/04/25 06:19:06 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:19:06 Sent user status to client 1
-2026/04/25 06:19:06 Sent user status to client 2
-2026/04/25 06:19:06 Client connected: zaza (ID: 1)
-2026/04/25 06:19:06 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:06 Sent user status to client 2
-2026/04/25 06:19:06 Sent user status to client 1
-2026/04/25 06:19:07 Client connected: qwerty (ID: 2)
-2026/04/25 06:19:07 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:19:07 Sent user status to client 2
-2026/04/25 06:19:07 Sent user status to client 1
-2026/04/25 06:19:07 Client connected: zaza (ID: 1)
-2026/04/25 06:19:07 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:07 Sent user status to client 2
-2026/04/25 06:19:07 Sent user status to client 1
-2026/04/25 06:19:09 Client connected: zaza (ID: 1)
-2026/04/25 06:19:09 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:09 Sent user status to client 2
-2026/04/25 06:19:09 Sent user status to client 1
-2026/04/25 06:19:09 Client connected: qwerty (ID: 2)
-2026/04/25 06:19:09 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:19:09 Sent user status to client 2
-2026/04/25 06:19:09 Sent user status to client 1
-2026/04/25 06:19:09 Client connected: qwerty (ID: 2)
-2026/04/25 06:19:09 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:19:09 Sent user status to client 1
-2026/04/25 06:19:09 Sent user status to client 2
-2026/04/25 06:19:09 Client connected: zaza (ID: 1)
-2026/04/25 06:19:09 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:09 Sent user status to client 2
-2026/04/25 06:19:09 Sent user status to client 1
-2026/04/25 06:19:15 Client connected: qwerty (ID: 2)
-2026/04/25 06:19:15 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:19:15 Sent user status to client 2
-2026/04/25 06:19:15 Sent user status to client 1
-2026/04/25 06:19:15 Client connected: zaza (ID: 1)
-2026/04/25 06:19:15 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:15 Sent user status to client 2
-2026/04/25 06:19:15 Sent user status to client 1
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client disconnected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Client connected: zaza (ID: 1)
-2026/04/25 06:19:33 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:19:33 Sent user status to client 2
-2026/04/25 06:19:33 Sent user status to client 1
-2026/04/25 06:19:37 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:19:37 Sent messages read to client 2
-2026/04/25 06:19:37 Sent messages read to client 1
-2026/04/25 06:19:37 GetMessages: chatID=2, found 1 messages
-2026/04/25 06:19:38 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:19:38 Sent messages read to client 2
-2026/04/25 06:19:38 Sent messages read to client 1
-2026/04/25 06:19:38 GetMessages: chatID=2, found 1 messages
-2026/04/25 06:19:42 BroadcastMessage: msgID=116, chatID=2, userID=2, username=qwerty
-2026/04/25 06:19:42 Sent message to client 2
-2026/04/25 06:19:42 Sent message to client 1
-2026/04/25 06:19:42 BroadcastUnreadCount: chatID=2, userID=1, count=1
-2026/04/25 06:19:42 Sent unread count to client 1
-2026/04/25 06:19:44 BroadcastMessage: msgID=117, chatID=2, userID=2, username=qwerty
-2026/04/25 06:19:44 Sent message to client 2
-2026/04/25 06:19:44 Sent message to client 1
-2026/04/25 06:19:44 BroadcastUnreadCount: chatID=2, userID=1, count=2
-2026/04/25 06:19:44 Sent unread count to client 1
-2026/04/25 06:19:45 BroadcastMessage: msgID=118, chatID=2, userID=2, username=qwerty
-2026/04/25 06:19:45 Sent message to client 2
-2026/04/25 06:19:45 Sent message to client 1
-2026/04/25 06:19:45 BroadcastUnreadCount: chatID=2, userID=1, count=3
-2026/04/25 06:19:45 Sent unread count to client 1
-2026/04/25 06:19:51 UploadFile: userID=2, chatID=2, fileType=image, filename=photo_2026-04-13_21-14-03.jpg
-2026/04/25 06:19:51 UploadFile: saving to uploads\files\image\2_1777079991.jpg
-2026/04/25 06:19:51 UploadFile: success, fileURL=/uploads/files/image/2_1777079991.jpg
-2026/04/25 06:19:51 BroadcastMessage: msgID=119, chatID=2, userID=2, username=qwerty
-2026/04/25 06:19:51 Sent message to client 2
-2026/04/25 06:19:51 Sent message to client 1
-2026/04/25 06:20:05 UploadFile: userID=2, chatID=2, fileType=image, filename=28B6E658-FA60-4E03-BBC2-064D537DFCFC.png
-2026/04/25 06:20:05 UploadFile: saving to uploads\files\image\2_1777080005.png
-2026/04/25 06:20:05 UploadFile: success, fileURL=/uploads/files/image/2_1777080005.png
-2026/04/25 06:20:05 BroadcastMessage: msgID=120, chatID=2, userID=2, username=qwerty
-2026/04/25 06:20:05 Sent message to client 1
-2026/04/25 06:20:05 Sent message to client 2
-2026/04/25 06:20:28 UploadFile: userID=2, chatID=2, fileType=image, filename=2.png
-2026/04/25 06:20:28 UploadFile: saving to uploads\files\image\2_1777080028.png
-2026/04/25 06:20:28 UploadFile: success, fileURL=/uploads/files/image/2_1777080028.png
-2026/04/25 06:20:28 BroadcastMessage: msgID=121, chatID=2, userID=2, username=qwerty
-2026/04/25 06:20:28 Sent message to client 2
-2026/04/25 06:20:28 Sent message to client 1
-2026/04/25 06:22:48 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:22:48 Sent messages read to client 2
-2026/04/25 06:22:48 Sent messages read to client 1
-2026/04/25 06:22:48 GetMessages: chatID=2, found 7 messages
-2026/04/25 06:22:53 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:22:53 Sent messages read to client 2
-2026/04/25 06:22:53 Sent messages read to client 1
-2026/04/25 06:22:53 GetMessages: chatID=2, found 7 messages
-2026/04/25 06:23:03 UploadFile: userID=2, chatID=2, fileType=image, filename=DCF8C5A5-7BB1-4419-80BD-2442987CCC34.png
-2026/04/25 06:23:03 UploadFile: saving to uploads\files\image\2_1777080183.png
-2026/04/25 06:23:03 UploadFile: success, fileURL=/uploads/files/image/2_1777080183.png
-2026/04/25 06:23:03 BroadcastMessage: msgID=122, chatID=2, userID=2, username=qwerty
-2026/04/25 06:23:03 Sent message to client 2
-2026/04/25 06:23:03 Sent message to client 1
-2026/04/25 06:23:13 UploadFile: userID=2, chatID=2, fileType=image, filename=2.png
-2026/04/25 06:23:13 UploadFile: saving to uploads\files\image\2_1777080193.png
-2026/04/25 06:23:13 UploadFile: success, fileURL=/uploads/files/image/2_1777080193.png
-2026/04/25 06:23:13 BroadcastMessage: msgID=123, chatID=2, userID=2, username=qwerty
-2026/04/25 06:23:13 Sent message to client 2
-2026/04/25 06:23:13 Sent message to client 1
-2026/04/25 06:25:18 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:25:18 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:25:18 Sent user status to client 1
-2026/04/25 06:25:18 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:18 Sent messages read to client 1
-2026/04/25 06:25:18 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:18 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:18 Sent messages read to client 1
-2026/04/25 06:25:18 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:18 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:18 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:18 Sent user status to client 2
-2026/04/25 06:25:18 Sent user status to client 1
-2026/04/25 06:25:18 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:18 Sent messages read to client 2
-2026/04/25 06:25:18 Sent messages read to client 1
-2026/04/25 06:25:18 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:18 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:18 Sent messages read to client 2
-2026/04/25 06:25:18 Sent messages read to client 1
-2026/04/25 06:25:18 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:18 Client disconnected: zaza (ID: 1)
-2026/04/25 06:25:18 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:25:18 Sent user status to client 2
-2026/04/25 06:25:18 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:18 Sent messages read to client 2
-2026/04/25 06:25:18 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:18 Client connected: zaza (ID: 1)
-2026/04/25 06:25:18 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:25:18 Sent user status to client 2
-2026/04/25 06:25:18 Sent user status to client 1
-2026/04/25 06:25:18 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:18 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:18 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:18 Sent messages read to client 2
-2026/04/25 06:25:18 Sent messages read to client 1
-2026/04/25 06:25:18 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:19 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:19 Sent messages read to client 2
-2026/04/25 06:25:19 Sent messages read to client 1
-2026/04/25 06:25:19 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:19 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:19 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:19 Sent user status to client 2
-2026/04/25 06:25:19 Sent user status to client 1
-2026/04/25 06:25:19 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:19 Sent messages read to client 1
-2026/04/25 06:25:19 Sent messages read to client 2
-2026/04/25 06:25:19 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:20 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:25:20 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:25:20 Sent user status to client 1
-2026/04/25 06:25:20 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:20 Sent messages read to client 1
-2026/04/25 06:25:20 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:20 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:20 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:20 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:20 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:20 Sent user status to client 2
-2026/04/25 06:25:20 Sent user status to client 1
-2026/04/25 06:25:20 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:20 Sent messages read to client 2
-2026/04/25 06:25:20 Sent messages read to client 1
-2026/04/25 06:25:20 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:20 Client connected: zaza (ID: 1)
-2026/04/25 06:25:20 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:25:20 Sent user status to client 2
-2026/04/25 06:25:20 Sent user status to client 1
-2026/04/25 06:25:20 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:20 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:20 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:20 Sent messages read to client 1
-2026/04/25 06:25:20 Sent messages read to client 2
-2026/04/25 06:25:20 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:21 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:21 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:21 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:21 Sent messages read to client 2
-2026/04/25 06:25:21 Sent messages read to client 1
-2026/04/25 06:25:21 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:21 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:21 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:21 Sent user status to client 2
-2026/04/25 06:25:21 Sent user status to client 1
-2026/04/25 06:25:22 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:22 Sent messages read to client 2
-2026/04/25 06:25:22 Sent messages read to client 1
-2026/04/25 06:25:22 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:22 Client connected: zaza (ID: 1)
-2026/04/25 06:25:22 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:25:22 Sent user status to client 1
-2026/04/25 06:25:22 Sent user status to client 2
-2026/04/25 06:25:23 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:23 Sent messages read to client 2
-2026/04/25 06:25:23 Sent messages read to client 1
-2026/04/25 06:25:23 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:30 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:25:30 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:25:30 Sent user status to client 1
-2026/04/25 06:25:30 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:30 Sent messages read to client 1
-2026/04/25 06:25:30 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:31 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:31 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:31 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:31 Sent user status to client 2
-2026/04/25 06:25:31 Sent messages read to client 2
-2026/04/25 06:25:31 Sent messages read to client 1
-2026/04/25 06:25:31 Sent user status to client 1
-2026/04/25 06:25:31 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:31 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:31 Sent messages read to client 2
-2026/04/25 06:25:31 Sent messages read to client 1
-2026/04/25 06:25:31 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:31 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:31 Sent messages read to client 2
-2026/04/25 06:25:31 Sent messages read to client 1
-2026/04/25 06:25:31 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:31 Client disconnected: zaza (ID: 1)
-2026/04/25 06:25:31 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:25:31 Sent user status to client 2
-2026/04/25 06:25:31 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:31 Sent messages read to client 2
-2026/04/25 06:25:31 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:31 Client connected: zaza (ID: 1)
-2026/04/25 06:25:31 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:25:31 Sent user status to client 2
-2026/04/25 06:25:31 Sent user status to client 1
-2026/04/25 06:25:31 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:31 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:32 Sent messages read to client 2
-2026/04/25 06:25:32 Sent messages read to client 1
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:32 Sent messages read to client 2
-2026/04/25 06:25:32 Sent messages read to client 1
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:32 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:32 Sent user status to client 2
-2026/04/25 06:25:32 Sent user status to client 1
-2026/04/25 06:25:32 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:32 Sent messages read to client 2
-2026/04/25 06:25:32 Sent messages read to client 1
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:25:32 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:25:32 Sent user status to client 1
-2026/04/25 06:25:32 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:32 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:32 Sent user status to client 2
-2026/04/25 06:25:32 Sent user status to client 1
-2026/04/25 06:25:32 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 Client connected: zaza (ID: 1)
-2026/04/25 06:25:32 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:25:32 Sent user status to client 2
-2026/04/25 06:25:32 Sent user status to client 1
-2026/04/25 06:25:32 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:32 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:32 Sent messages read to client 2
-2026/04/25 06:25:32 Sent messages read to client 1
-2026/04/25 06:25:32 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:33 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:33 Sent messages read to client 2
-2026/04/25 06:25:33 Sent messages read to client 1
-2026/04/25 06:25:33 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:33 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:33 Sent messages read to client 1
-2026/04/25 06:25:33 Sent messages read to client 2
-2026/04/25 06:25:33 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:33 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:33 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:33 Sent user status to client 2
-2026/04/25 06:25:33 Sent user status to client 1
-2026/04/25 06:25:33 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:33 Sent messages read to client 2
-2026/04/25 06:25:33 Sent messages read to client 1
-2026/04/25 06:25:33 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:34 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:25:34 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:25:34 Sent user status to client 1
-2026/04/25 06:25:35 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:35 Sent messages read to client 1
-2026/04/25 06:25:35 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:35 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:35 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:35 Sent user status to client 2
-2026/04/25 06:25:35 Sent user status to client 1
-2026/04/25 06:25:35 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:35 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:35 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:35 Sent messages read to client 2
-2026/04/25 06:25:35 Sent messages read to client 1
-2026/04/25 06:25:35 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:35 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:35 Sent messages read to client 2
-2026/04/25 06:25:35 Sent messages read to client 1
-2026/04/25 06:25:35 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:35 Client disconnected: zaza (ID: 1)
-2026/04/25 06:25:35 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:25:35 Sent user status to client 2
-2026/04/25 06:25:35 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:35 Sent messages read to client 2
-2026/04/25 06:25:35 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:35 Client connected: zaza (ID: 1)
-2026/04/25 06:25:35 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:25:35 Sent user status to client 2
-2026/04/25 06:25:35 Sent user status to client 1
-2026/04/25 06:25:35 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:35 Sent messages read to client 2
-2026/04/25 06:25:35 Sent messages read to client 1
-2026/04/25 06:25:35 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:36 GetMessages: MarkMessagesAsRead error: database is locked (5) (SQLITE_BUSY)
-2026/04/25 06:25:36 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:36 Sent messages read to client 2
-2026/04/25 06:25:36 Sent messages read to client 1
-2026/04/25 06:25:36 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:36 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:36 Client connected: qwerty (ID: 2)
-2026/04/25 06:25:36 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:25:36 Sent user status to client 2
-2026/04/25 06:25:36 Sent user status to client 1
-2026/04/25 06:25:36 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:25:36 Sent messages read to client 1
-2026/04/25 06:25:36 Sent messages read to client 2
-2026/04/25 06:25:36 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:25:37 Client connected: zaza (ID: 1)
-2026/04/25 06:25:37 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:25:37 Sent user status to client 2
-2026/04/25 06:25:37 Sent user status to client 1
-2026/04/25 06:25:37 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:25:37 Sent messages read to client 2
-2026/04/25 06:25:37 Sent messages read to client 1
-2026/04/25 06:25:37 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:26:07 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:26:07 Sent user status to client 1
-2026/04/25 06:26:07 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:26:07 Sent messages read to client 1
-2026/04/25 06:26:07 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:26:08 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:26:08 Sent messages read to client 1
-2026/04/25 06:26:08 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:26:08 Client connected: qwerty (ID: 2)
-2026/04/25 06:26:08 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:26:08 Sent user status to client 2
-2026/04/25 06:26:08 Sent user status to client 1
-2026/04/25 06:26:08 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:26:08 Sent messages read to client 2
-2026/04/25 06:26:08 Sent messages read to client 1
-2026/04/25 06:26:08 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:26:08 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:26:08 Sent messages read to client 2
-2026/04/25 06:26:08 Sent messages read to client 1
-2026/04/25 06:26:08 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:26:08 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:26:08 Sent messages read to client 2
-2026/04/25 06:26:08 Sent messages read to client 1
-2026/04/25 06:26:08 GetMessages: chatID=2, found 9 messages
-2026/04/25 06:26:14 UploadFile: userID=2, chatID=2, fileType=image, filename=image_fa3a107f-3af4-4cc2-b4d8-40e84b8741ea.png
-2026/04/25 06:26:14 UploadFile: saving to uploads\files\image\2_1777080374.png
-2026/04/25 06:26:14 UploadFile: success, fileURL=/uploads/files/image/2_1777080374.png
-2026/04/25 06:26:14 BroadcastMessage: msgID=124, chatID=2, userID=2, username=qwerty
-2026/04/25 06:26:14 Sent message to client 2
-2026/04/25 06:26:14 Sent message to client 1
-2026/04/25 06:27:04 UploadFile: userID=2, chatID=2, fileType=image, filename=2.png
-2026/04/25 06:27:04 UploadFile: saving to uploads\files\image\2_1777080424.png
-2026/04/25 06:27:04 UploadFile: success, fileURL=/uploads/files/image/2_1777080424.png
-2026/04/25 06:27:04 BroadcastMessage: msgID=125, chatID=2, userID=2, username=qwerty
-2026/04/25 06:27:04 Sent message to client 2
-2026/04/25 06:27:04 Sent message to client 1
-2026/04/25 06:27:39 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:27:39 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:27:39 Sent user status to client 1
-2026/04/25 06:27:39 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:27:39 Sent messages read to client 1
-2026/04/25 06:27:39 GetMessages: chatID=2, found 11 messages
-2026/04/25 06:27:40 Client connected: qwerty (ID: 2)
-2026/04/25 06:27:40 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:27:40 Sent user status to client 2
-2026/04/25 06:27:40 Sent user status to client 1
-2026/04/25 06:27:40 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:27:40 Sent messages read to client 2
-2026/04/25 06:27:40 Sent messages read to client 1
-2026/04/25 06:27:40 GetMessages: chatID=2, found 11 messages
-2026/04/25 06:27:41 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:27:41 Sent messages read to client 2
-2026/04/25 06:27:41 Sent messages read to client 1
-2026/04/25 06:27:41 GetMessages: chatID=2, found 11 messages
-2026/04/25 06:27:46 UploadFile: userID=2, chatID=2, fileType=image, filename=2.png
-2026/04/25 06:27:46 UploadFile: saving to uploads\files\image\2_1777080466.png
-2026/04/25 06:27:46 UploadFile: success, fileURL=/uploads/files/image/2_1777080466.png
-2026/04/25 06:27:46 BroadcastMessage: msgID=126, chatID=2, userID=2, username=qwerty
-2026/04/25 06:27:46 Sent message to client 2
-2026/04/25 06:27:46 Sent message to client 1
-2026/04/25 06:28:00 UploadFile: userID=2, chatID=2, fileType=image, filename=Trollface.png
-2026/04/25 06:28:00 UploadFile: saving to uploads\files\image\2_1777080480.png
-2026/04/25 06:28:00 UploadFile: success, fileURL=/uploads/files/image/2_1777080480.png
-2026/04/25 06:28:00 BroadcastMessage: msgID=127, chatID=2, userID=2, username=qwerty
-2026/04/25 06:28:00 Sent message to client 2
-2026/04/25 06:28:00 Sent message to client 1
-2026/04/25 06:29:49 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:29:49 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:29:49 Sent user status to client 1
-2026/04/25 06:29:50 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:29:50 Sent messages read to client 1
-2026/04/25 06:29:50 GetMessages: chatID=2, found 13 messages
-2026/04/25 06:29:50 Client connected: qwerty (ID: 2)
-2026/04/25 06:29:50 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:29:50 Sent user status to client 2
-2026/04/25 06:29:50 Sent user status to client 1
-2026/04/25 06:29:50 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:29:50 Sent messages read to client 2
-2026/04/25 06:29:50 Sent messages read to client 1
-2026/04/25 06:29:50 GetMessages: chatID=2, found 13 messages
-2026/04/25 06:29:50 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:29:50 Sent messages read to client 2
-2026/04/25 06:29:50 Sent messages read to client 1
-2026/04/25 06:29:50 GetMessages: chatID=2, found 13 messages
-2026/04/25 06:29:55 UploadFile: userID=2, chatID=2, fileType=image, filename=Trollface.png
-2026/04/25 06:29:55 UploadFile: saving to uploads\files\image\2_1777080595.png
-2026/04/25 06:29:55 UploadFile: success, fileURL=/uploads/files/image/2_1777080595.png
-2026/04/25 06:29:55 BroadcastMessage: msgID=128, chatID=2, userID=2, username=qwerty
-2026/04/25 06:29:55 Sent message to client 2
-2026/04/25 06:29:55 Sent message to client 1
-2026/04/25 06:30:04 UploadFile: userID=2, chatID=2, fileType=image, filename=image_fa3a107f-3af4-4cc2-b4d8-40e84b8741ea.png
-2026/04/25 06:30:04 UploadFile: saving to uploads\files\image\2_1777080604.png
-2026/04/25 06:30:04 UploadFile: success, fileURL=/uploads/files/image/2_1777080604.png
-2026/04/25 06:30:04 BroadcastMessage: msgID=129, chatID=2, userID=2, username=qwerty
-2026/04/25 06:30:04 Sent message to client 1
-2026/04/25 06:30:04 Sent message to client 2
-2026/04/25 06:31:49 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:31:49 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:31:49 Sent user status to client 1
-2026/04/25 06:31:49 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:31:49 Sent messages read to client 1
-2026/04/25 06:31:49 GetMessages: chatID=2, found 15 messages
-2026/04/25 06:31:50 Client connected: qwerty (ID: 2)
-2026/04/25 06:31:50 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:31:50 Sent user status to client 2
-2026/04/25 06:31:50 Sent user status to client 1
-2026/04/25 06:31:50 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:31:50 Sent messages read to client 2
-2026/04/25 06:31:50 Sent messages read to client 1
-2026/04/25 06:31:50 GetMessages: chatID=2, found 15 messages
-2026/04/25 06:31:50 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:31:50 Sent messages read to client 2
-2026/04/25 06:31:50 Sent messages read to client 1
-2026/04/25 06:31:50 GetMessages: chatID=2, found 15 messages
-2026/04/25 06:31:53 UploadFile: userID=2, chatID=2, fileType=image, filename=2.png
-2026/04/25 06:31:53 UploadFile: saving to uploads\files\image\2_1777080713.png
-2026/04/25 06:31:53 UploadFile: success, fileURL=/uploads/files/image/2_1777080713.png
-2026/04/25 06:31:53 BroadcastMessage: msgID=130, chatID=2, userID=2, username=qwerty
-2026/04/25 06:31:53 Sent message to client 1
-2026/04/25 06:31:53 Sent message to client 2
-2026/04/25 06:32:57 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:32:57 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:32:57 Sent user status to client 1
-2026/04/25 06:32:57 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:32:57 Sent messages read to client 1
-2026/04/25 06:32:57 GetMessages: chatID=2, found 16 messages
-2026/04/25 06:32:58 Client connected: qwerty (ID: 2)
-2026/04/25 06:32:58 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:32:58 Sent user status to client 2
-2026/04/25 06:32:58 Sent user status to client 1
-2026/04/25 06:32:58 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:32:58 Sent messages read to client 2
-2026/04/25 06:32:58 Sent messages read to client 1
-2026/04/25 06:32:58 GetMessages: chatID=2, found 16 messages
-2026/04/25 06:32:58 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:32:58 Sent messages read to client 2
-2026/04/25 06:32:58 Sent messages read to client 1
-2026/04/25 06:32:58 GetMessages: chatID=2, found 16 messages
-2026/04/25 06:33:03 UploadFile: userID=2, chatID=2, fileType=image, filename=2.png
-2026/04/25 06:33:03 UploadFile: saving to uploads\files\image\2_1777080783.png
-2026/04/25 06:33:03 UploadFile: success, fileURL=/uploads/files/image/2_1777080783.png
-2026/04/25 06:33:03 BroadcastMessage: msgID=131, chatID=2, userID=2, username=qwerty
-2026/04/25 06:33:03 Sent message to client 2
-2026/04/25 06:33:03 Sent message to client 1
-2026/04/25 06:33:32 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:33:32 Sent messages read to client 2
-2026/04/25 06:33:32 Sent messages read to client 1
-2026/04/25 06:33:32 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:33:37 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:33:37 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:33:37 Sent user status to client 1
-2026/04/25 06:33:37 Client connected: qwerty (ID: 2)
-2026/04/25 06:33:37 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:33:37 Sent user status to client 2
-2026/04/25 06:33:37 Sent user status to client 1
-2026/04/25 06:33:39 Client disconnected: zaza (ID: 1)
-2026/04/25 06:33:39 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:33:39 Sent user status to client 2
-2026/04/25 06:33:39 Client disconnected: zaza (ID: 1)
-2026/04/25 06:33:39 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:33:39 Sent user status to client 2
-2026/04/25 06:33:39 Client disconnected: zaza (ID: 1)
-2026/04/25 06:33:39 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:33:39 Sent user status to client 2
-2026/04/25 06:33:39 Client disconnected: zaza (ID: 1)
-2026/04/25 06:33:39 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:33:39 Sent user status to client 2
-2026/04/25 06:33:39 Client disconnected: zaza (ID: 1)
-2026/04/25 06:33:39 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:33:39 Sent user status to client 2
-2026/04/25 06:33:39 Client connected: zaza (ID: 1)
-2026/04/25 06:33:39 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:33:39 Sent user status to client 1
-2026/04/25 06:33:39 Sent user status to client 2
-2026/04/25 06:33:40 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:33:40 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:33:40 Sent user status to client 1
-2026/04/25 06:33:41 Client connected: qwerty (ID: 2)
-2026/04/25 06:33:41 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:33:41 Sent user status to client 2
-2026/04/25 06:33:41 Sent user status to client 1
-2026/04/25 06:33:47 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:33:47 Sent messages read to client 2
-2026/04/25 06:33:47 Sent messages read to client 1
-2026/04/25 06:33:47 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:41:19 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:41:19 Sent messages read to client 2
-2026/04/25 06:41:19 Sent messages read to client 1
-2026/04/25 06:41:19 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:41:22 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:41:22 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:41:22 Sent user status to client 1
-2026/04/25 06:41:22 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:41:22 Sent messages read to client 1
-2026/04/25 06:41:22 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:41:22 Client connected: qwerty (ID: 2)
-2026/04/25 06:41:22 BroadcastUserStatus: userID=2, online=true
-2026/04/25 06:41:22 Sent user status to client 2
-2026/04/25 06:41:22 Sent user status to client 1
-2026/04/25 06:41:23 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:41:23 Sent messages read to client 2
-2026/04/25 06:41:23 Sent messages read to client 1
-2026/04/25 06:41:23 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:41:23 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:41:23 Sent messages read to client 2
-2026/04/25 06:41:23 Sent messages read to client 1
-2026/04/25 06:41:23 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:41:25 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:41:25 Sent messages read to client 2
-2026/04/25 06:41:25 Sent messages read to client 1
-2026/04/25 06:41:25 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:41:26 BroadcastMessagesRead: chatID=2, userID=2
-2026/04/25 06:41:26 Sent messages read to client 2
-2026/04/25 06:41:26 Sent messages read to client 1
-2026/04/25 06:41:26 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:41:30 Client disconnected: qwerty (ID: 2)
-2026/04/25 06:41:30 BroadcastUserStatus: userID=2, online=false
-2026/04/25 06:41:30 Sent user status to client 1
-2026/04/25 06:41:30 BroadcastMessagesRead: chatID=2, userID=1
-2026/04/25 06:41:30 Sent messages read to client 1
-2026/04/25 06:41:30 GetMessages: chatID=2, found 17 messages
-2026/04/25 06:46:01 Client disconnected: zaza (ID: 1)
-2026/04/25 06:46:01 BroadcastUserStatus: userID=1, online=false
-2026/04/25 06:46:02 Client connected: zaza (ID: 1)
-2026/04/25 06:46:02 BroadcastUserStatus: userID=1, online=true
-2026/04/25 06:46:02 Sent user status to client 1
+2026/04/25 21:52:07 Migration note: avatar_url column might already exist
+2026/04/25 21:52:07 Migration note: bio column might already exist
+2026/04/25 21:52:07 Migration note: nickname column might already exist
+2026/04/25 21:52:07 Migration note: file_url column might already exist
+2026/04/25 21:52:07 Migration note: file_type column might already exist
+2026/04/25 21:52:07 Migration note: file_name column might already exist
+2026/04/25 21:52:07 SQLite database initialized
+2026/04/25 21:52:07 Server starting on :4000 with HTTP (no SSL certificates found)
+2026/04/25 21:52:08 Client connected: zaza (ID: 1)
+2026/04/25 21:52:08 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:52:08 Sent user status to client 1
+2026/04/25 21:52:09 Client disconnected: zaza (ID: 1)
+2026/04/25 21:52:09 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:52:10 Client connected: zaza (ID: 1)
+2026/04/25 21:52:10 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:52:10 Sent user status to client 1
+2026/04/25 21:53:01 BroadcastMessagesRead: chatID=2, userID=1
+2026/04/25 21:53:01 Sent messages read to client 1
+2026/04/25 21:53:01 GetMessages: chatID=2, found 33 messages
+2026/04/25 21:53:09 UploadFile: userID=1, chatID=2, fileType=voice, filename=voice.webm
+2026/04/25 21:53:09 UploadFile: saving to uploads\files\voice\1_1777135989.webm
+2026/04/25 21:53:09 UploadFile: success, fileURL=/uploads/files/voice/1_1777135989.webm
+2026/04/25 21:53:09 BroadcastMessage: msgID=148, chatID=2, userID=1, username=zaza
+2026/04/25 21:53:09 Sent message to client 1
+2026/04/25 21:55:46 Client disconnected: zaza (ID: 1)
+2026/04/25 21:55:46 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:55:56 Client connected: zaza (ID: 1)
+2026/04/25 21:55:56 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:55:56 Sent user status to client 1
+2026/04/25 21:56:14 BroadcastMessagesRead: chatID=2, userID=1
+2026/04/25 21:56:14 Sent messages read to client 1
+2026/04/25 21:56:14 GetMessages: chatID=2, found 34 messages
+2026/04/25 21:58:50 Client disconnected: zaza (ID: 1)
+2026/04/25 21:58:50 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:59:13 Client connected: zaza (ID: 1)
+2026/04/25 21:59:13 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:59:13 Sent user status to client 1
+2026/04/25 21:59:21 Client disconnected: zaza (ID: 1)
+2026/04/25 21:59:21 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:59:22 Client connected: zaza (ID: 1)
+2026/04/25 21:59:22 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:59:22 Sent user status to client 1
+2026/04/25 21:59:23 BroadcastMessagesRead: chatID=2, userID=1
+2026/04/25 21:59:23 Sent messages read to client 1
+2026/04/25 21:59:23 GetMessages: chatID=2, found 34 messages
+2026/04/25 22:24:12 Client disconnected: zaza (ID: 1)
+2026/04/25 22:24:12 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:24:13 Client connected: zaza (ID: 1)
+2026/04/25 22:24:13 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:24:13 Sent user status to client 1
+2026/04/25 22:44:17 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:17 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:17 Client connected: zaza (ID: 1)
+2026/04/25 22:44:17 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:17 Sent user status to client 1
+2026/04/25 22:44:18 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:18 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:19 Client connected: zaza (ID: 1)
+2026/04/25 22:44:19 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:19 Sent user status to client 1
+2026/04/25 22:44:22 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:22 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:22 Client connected: zaza (ID: 1)
+2026/04/25 22:44:22 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:22 Sent user status to client 1
+2026/04/25 22:44:23 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:23 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:23 Client connected: zaza (ID: 1)
+2026/04/25 22:44:23 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:23 Sent user status to client 1
+2026/04/25 22:44:24 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:24 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:24 Client connected: zaza (ID: 1)
+2026/04/25 22:44:24 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:24 Sent user status to client 1
+2026/04/25 22:44:25 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:25 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:25 Client connected: zaza (ID: 1)
+2026/04/25 22:44:25 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:25 Sent user status to client 1
+2026/04/25 22:44:26 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:26 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:26 Client connected: zaza (ID: 1)
+2026/04/25 22:44:26 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:26 Sent user status to client 1
+2026/04/25 22:44:27 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:27 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:27 Client connected: zaza (ID: 1)
+2026/04/25 22:44:27 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:27 Sent user status to client 1
+2026/04/25 22:44:27 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:27 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:28 Client connected: zaza (ID: 1)
+2026/04/25 22:44:28 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:28 Sent user status to client 1
+2026/04/25 22:44:28 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:28 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:29 Client connected: zaza (ID: 1)
+2026/04/25 22:44:29 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:29 Sent user status to client 1
+2026/04/25 22:44:45 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:45 BroadcastUserStatus: userID=1, online=false
+exit status 1
