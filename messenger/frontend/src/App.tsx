@@ -75,7 +75,11 @@ function Messenger() {
 
   // Get API base URL
   const getApiUrl = () => {
-    return import.meta.env.VITE_API_URL || window.location.origin;
+    let url = import.meta.env.VITE_API_URL || "";
+    if (!url) {
+      url = window.location.origin.replace(/:300\d/, ':4000');
+    }
+    return url;
   };
 
   // Load current user

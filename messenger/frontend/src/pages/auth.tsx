@@ -18,7 +18,10 @@ export default function Auth({ onLogin }: AuthProps) {
     setLoading(true);
 
     try {
-      const basePath = import.meta.env.VITE_API_URL || "";
+      let basePath = import.meta.env.VITE_API_URL || "";
+      if (!basePath) {
+        basePath = window.location.origin.replace(/:300\d/, ':4000');
+      }
       const endpoint = basePath + (isLogin ? "/api/auth/login" : "/api/auth/register");
       const response = await fetch(endpoint, {
         method: "POST",
