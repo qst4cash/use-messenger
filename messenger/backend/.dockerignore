@@ -1,0 +1,8 @@
+*.db
+*.log
+uploads/*
+.git
+.gitignore
+README.md
+.vscode
+use-server~

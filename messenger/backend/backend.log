@@ -1,0 +1,103 @@
+2026/04/25 21:52:07 Migration note: avatar_url column might already exist
+2026/04/25 21:52:07 Migration note: bio column might already exist
+2026/04/25 21:52:07 Migration note: nickname column might already exist
+2026/04/25 21:52:07 Migration note: file_url column might already exist
+2026/04/25 21:52:07 Migration note: file_type column might already exist
+2026/04/25 21:52:07 Migration note: file_name column might already exist
+2026/04/25 21:52:07 SQLite database initialized
+2026/04/25 21:52:07 Server starting on :4000 with HTTP (no SSL certificates found)
+2026/04/25 21:52:08 Client connected: zaza (ID: 1)
+2026/04/25 21:52:08 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:52:08 Sent user status to client 1
+2026/04/25 21:52:09 Client disconnected: zaza (ID: 1)
+2026/04/25 21:52:09 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:52:10 Client connected: zaza (ID: 1)
+2026/04/25 21:52:10 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:52:10 Sent user status to client 1
+2026/04/25 21:53:01 BroadcastMessagesRead: chatID=2, userID=1
+2026/04/25 21:53:01 Sent messages read to client 1
+2026/04/25 21:53:01 GetMessages: chatID=2, found 33 messages
+2026/04/25 21:53:09 UploadFile: userID=1, chatID=2, fileType=voice, filename=voice.webm
+2026/04/25 21:53:09 UploadFile: saving to uploads\files\voice\1_1777135989.webm
+2026/04/25 21:53:09 UploadFile: success, fileURL=/uploads/files/voice/1_1777135989.webm
+2026/04/25 21:53:09 BroadcastMessage: msgID=148, chatID=2, userID=1, username=zaza
+2026/04/25 21:53:09 Sent message to client 1
+2026/04/25 21:55:46 Client disconnected: zaza (ID: 1)
+2026/04/25 21:55:46 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:55:56 Client connected: zaza (ID: 1)
+2026/04/25 21:55:56 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:55:56 Sent user status to client 1
+2026/04/25 21:56:14 BroadcastMessagesRead: chatID=2, userID=1
+2026/04/25 21:56:14 Sent messages read to client 1
+2026/04/25 21:56:14 GetMessages: chatID=2, found 34 messages
+2026/04/25 21:58:50 Client disconnected: zaza (ID: 1)
+2026/04/25 21:58:50 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:59:13 Client connected: zaza (ID: 1)
+2026/04/25 21:59:13 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:59:13 Sent user status to client 1
+2026/04/25 21:59:21 Client disconnected: zaza (ID: 1)
+2026/04/25 21:59:21 BroadcastUserStatus: userID=1, online=false
+2026/04/25 21:59:22 Client connected: zaza (ID: 1)
+2026/04/25 21:59:22 BroadcastUserStatus: userID=1, online=true
+2026/04/25 21:59:22 Sent user status to client 1
+2026/04/25 21:59:23 BroadcastMessagesRead: chatID=2, userID=1
+2026/04/25 21:59:23 Sent messages read to client 1
+2026/04/25 21:59:23 GetMessages: chatID=2, found 34 messages
+2026/04/25 22:24:12 Client disconnected: zaza (ID: 1)
+2026/04/25 22:24:12 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:24:13 Client connected: zaza (ID: 1)
+2026/04/25 22:24:13 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:24:13 Sent user status to client 1
+2026/04/25 22:44:17 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:17 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:17 Client connected: zaza (ID: 1)
+2026/04/25 22:44:17 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:17 Sent user status to client 1
+2026/04/25 22:44:18 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:18 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:19 Client connected: zaza (ID: 1)
+2026/04/25 22:44:19 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:19 Sent user status to client 1
+2026/04/25 22:44:22 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:22 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:22 Client connected: zaza (ID: 1)
+2026/04/25 22:44:22 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:22 Sent user status to client 1
+2026/04/25 22:44:23 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:23 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:23 Client connected: zaza (ID: 1)
+2026/04/25 22:44:23 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:23 Sent user status to client 1
+2026/04/25 22:44:24 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:24 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:24 Client connected: zaza (ID: 1)
+2026/04/25 22:44:24 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:24 Sent user status to client 1
+2026/04/25 22:44:25 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:25 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:25 Client connected: zaza (ID: 1)
+2026/04/25 22:44:25 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:25 Sent user status to client 1
+2026/04/25 22:44:26 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:26 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:26 Client connected: zaza (ID: 1)
+2026/04/25 22:44:26 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:26 Sent user status to client 1
+2026/04/25 22:44:27 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:27 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:27 Client connected: zaza (ID: 1)
+2026/04/25 22:44:27 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:27 Sent user status to client 1
+2026/04/25 22:44:27 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:27 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:28 Client connected: zaza (ID: 1)
+2026/04/25 22:44:28 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:28 Sent user status to client 1
+2026/04/25 22:44:28 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:28 BroadcastUserStatus: userID=1, online=false
+2026/04/25 22:44:29 Client connected: zaza (ID: 1)
+2026/04/25 22:44:29 BroadcastUserStatus: userID=1, online=true
+2026/04/25 22:44:29 Sent user status to client 1
+2026/04/25 22:44:45 Client disconnected: zaza (ID: 1)
+2026/04/25 22:44:45 BroadcastUserStatus: userID=1, online=false
+exit status 1
